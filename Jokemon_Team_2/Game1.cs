@@ -8,7 +8,7 @@ namespace Jokemon_Team_2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        //hi 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
