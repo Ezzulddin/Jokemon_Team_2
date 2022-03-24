@@ -9,9 +9,18 @@ namespace Jokemon_Team_2
 {
     class InputManager
     {
+
+        KeyboardState state;
+        private int speed = 1;
         public void CheckKeys()
         {
+            state = Keyboard.GetState();
             
+        }
+
+        public void goLeft()
+        {
+
         }
     }
 }
