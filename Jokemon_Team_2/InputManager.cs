@@ -16,7 +16,6 @@ namespace Jokemon_Team_2
         {
             state = Keyboard.GetState();
             
-            if()
         }
 
         public void goLeft()
