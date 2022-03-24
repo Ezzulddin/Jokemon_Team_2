@@ -11,7 +11,7 @@ namespace Jokemon_Team_2
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);//hi
+            _graphics = new GraphicsDeviceManager(this); //hi 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -45,7 +45,7 @@ namespace Jokemon_Team_2
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            //hello
             base.Draw(gameTime);
         }
     }
