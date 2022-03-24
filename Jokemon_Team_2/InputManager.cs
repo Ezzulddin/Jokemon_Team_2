@@ -9,18 +9,38 @@ namespace Jokemon_Team_2
 {
     class InputManager
     {
-
         KeyboardState state;
-        private int speed = 1;
-        public void CheckKeys()
+
+        public void CheckKeys(Player playerSprite)
         {
             state = Keyboard.GetState();
-            
+
+            playerSprite.goingLeft = false;
+            playerSprite.goingRight = false;
+            playerSprite.goingUp = false;
+            playerSprite.goingDown = false;
+
+            if (state.IsKeyDown(Keys.A))
+            {
+                playerSprite.goingLeft = true;
+            }
+
+            if (state.IsKeyDown(Keys.D))
+            {
+                playerSprite.goingRight = true;
+            }
+
+            if (state.IsKeyDown(Keys.W))
+            {
+                playerSprite.goingUp = true;
+            }
+
+            if (state.IsKeyDown(Keys.S))
+            {
+                playerSprite.goingDown = true;
+            }
         }
 
-        public void goLeft()
-        {
-
-        }
+        
     }
 }

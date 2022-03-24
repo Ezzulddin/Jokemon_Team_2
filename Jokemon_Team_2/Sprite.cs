@@ -9,9 +9,9 @@ namespace Jokemon_Team_2
 {
     class Sprite
     {
-        public Texture2D SpriteTexture { get; set; }
-        public Vector2 SpritePosition { get; set; }
-        public Vector2 SpriteSize { get; set; }
+        public Texture2D spriteTexture { get; set; }
+        public Vector2 spritePosition { get; set; }
+        public Vector2 spriteSize { get; set; }
 
         public Sprite()
         {
@@ -20,17 +20,17 @@ namespace Jokemon_Team_2
 
         public Sprite(Texture2D tex, Vector2 pos, Vector2 size)
         {
-            this.SpriteTexture = tex;
-            this.SpritePosition = pos;
-            this.SpriteSize = size;
+            this.spriteTexture = tex;
+            this.spritePosition = pos;
+            this.spriteSize = size;
 
         }
 
-        public void drawSprite(SpriteBatch spriteBatch, Texture2D texture)
+        public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture)
         {
-            SpriteTexture = texture;
+            spriteTexture = texture;
             spriteBatch.Begin();
-            spriteBatch.Draw(SpriteTexture, new Rectangle((int)SpritePosition.X, (int)SpritePosition.Y, (int)SpriteSize.X, (int)SpriteSize.Y), Color.White);
+            spriteBatch.Draw(spriteTexture, new Rectangle((int)spritePosition.X, (int)spritePosition.Y, (int)spriteSize.X, (int)spriteSize.Y), Color.White);
             spriteBatch.End();
 
         }
