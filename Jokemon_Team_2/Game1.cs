@@ -8,8 +8,6 @@ namespace Jokemon_Team_2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        //hewo
-
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -46,7 +44,7 @@ namespace Jokemon_Team_2
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            //hello
             base.Draw(gameTime);
         }
     }
