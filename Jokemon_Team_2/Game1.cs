@@ -21,6 +21,7 @@ namespace Jokemon_Team_2
         private Tree[] treeRow5 = new Tree[10];
         private List<Tree> treeObjects = new List<Tree>();
 
+        private LoadLevelClass blackscreen = new LoadLevelClass();
         private PhysicsManager pManager = new PhysicsManager();
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
@@ -108,7 +109,7 @@ namespace Jokemon_Team_2
                 Exit();
 
             // TODO: Add your update logic here
-            iManager.CheckKeys(player);
+            iManager.CheckKeys(player,_graphics);
 
             foreach (Tree t in treeObjects)
             {
@@ -122,23 +123,22 @@ namespace Jokemon_Team_2
             //{
             //    pManager.CheckCollision(player, r);
             //}
-
+            
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.Clear(Color.LightGreen);
             foreach(Tree t in treeObjects)
             {
                 t.DrawSprite(_spriteBatch, t.spriteTexture);
             }
-
+            
             player.DrawSprite(_spriteBatch, player.spriteTexture);
 
-            // TODO: Add your drawing code here
-            //hello
+            blackscreen.LoadLevel(player, _graphics);
+
             base.Draw(gameTime);
         }
     }
