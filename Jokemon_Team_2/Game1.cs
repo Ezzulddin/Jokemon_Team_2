@@ -44,7 +44,6 @@ namespace Jokemon_Team_2
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             loadContent = Content.Load<Texture2D>("Big_tree");
             posX = 750;
             posY = 0;
