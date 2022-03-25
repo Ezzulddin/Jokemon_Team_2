@@ -15,9 +15,7 @@ namespace Jokemon_Team_2
         public void CheckCollision(Player p, Tree t)
         {
             Rectangle treeRect = new Rectangle((int)t.spritePosition.X, (int)t.spritePosition.Y, (int)t.spriteSize.X, (int)t.spriteSize.Y);
-            Rectangle treeRect2 = new Rectangle((int)t.spritePosition.X, (int)t.spritePosition.Y, (int)t.spriteSize.X, (int)t.spriteSize.Y);
-            Rectangle treeRect3 = new Rectangle((int)t.spritePosition.X, (int)t.spritePosition.Y, (int)t.spriteSize.X, (int)t.spriteSize.Y);
-            Rectangle treeRect4 = new Rectangle((int)t.spritePosition.X, (int)t.spritePosition.Y, (int)t.spriteSize.X, (int)t.spriteSize.Y);
+
             if (p.goingUp)
             {
 
@@ -41,7 +39,7 @@ namespace Jokemon_Team_2
                 p.projectedPos = new Vector2((int)p.spritePosition.X, (int)p.spritePosition.Y + collisionOffset);
                 Rectangle projectedPlayerRect = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
 
-                if (projectedPlayerRect.Intersects(treeRect2))
+                if (projectedPlayerRect.Intersects(treeRect))
                 {
                     p.hasCollidedBottom = true;
                 }
@@ -58,9 +56,11 @@ namespace Jokemon_Team_2
                 p.projectedPos = new Vector2((int)p.spritePosition.X - collisionOffset, (int)p.spritePosition.Y);
                 Rectangle projectedPlayerRect = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
 
-                if (projectedPlayerRect.Intersects(treeRect3))
+                if (projectedPlayerRect.Intersects(treeRect))
                 {
                     p.hasCollidedLeft = true;
+                    p.goingUp = false;
+                    p.goingDown = false;
                 }
                 if (p.hasCollidedLeft == false)
                 {
@@ -75,7 +75,7 @@ namespace Jokemon_Team_2
                 p.projectedPos = new Vector2((int)p.spritePosition.X + collisionOffset, (int)p.spritePosition.Y);
                 Rectangle projectedPlayerRect = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
 
-                if (projectedPlayerRect.Intersects(treeRect4))
+                if (projectedPlayerRect.Intersects(treeRect))
                 {
                     p.hasCollidedRight = true;
                 }
