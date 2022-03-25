@@ -85,6 +85,18 @@
 /processorParam:TextureFormat=Color
 /build:Player_M.png
 
+#begin Sign.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sign.png
+
 #begin squirtle.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,4 +108,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:squirtle.jpg
+
+#begin woodenchest.gif
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:woodenchest.gif
 
