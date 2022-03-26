@@ -13,7 +13,6 @@ namespace Jokemon_Team_2
         private int posY = 0;
         private Texture2D loadContent;
         private Player player;
-        private ReadableObject sign;
         private InputManager iManager = new InputManager();
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
@@ -102,10 +101,6 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("Player_M");
             player = new Player(loadContent,new Vector2(360,380),new Vector2(35,50));
-
-            loadContent = Content.Load<Texture2D>("Sign");
-            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30));
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -135,10 +130,7 @@ namespace Jokemon_Team_2
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGreen);
-
-            sign.DrawSprite(_spriteBatch, sign.spriteTexture);
-
-            foreach (Tree t in treeObjects)
+            foreach(Tree t in treeObjects)
             {
                 t.DrawSprite(_spriteBatch, t.spriteTexture);
             }
