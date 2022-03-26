@@ -19,10 +19,10 @@ namespace Jokemon_Team_2
         private Tree[] treeRow3 = new Tree[7];
         private Tree[] treeRow4 = new Tree[8];
         private Tree[] treeRow5 = new Tree[10];
-        private List<Tree> treeObjects = new List<Tree>();
-
-        private LoadLevelClass blackscreen = new LoadLevelClass();
+        private Building house;
+        
         private PhysicsManager pManager = new PhysicsManager();
+        private List<Tree> treeObjects = new List<Tree>();
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
@@ -50,7 +50,7 @@ namespace Jokemon_Team_2
             for (int i = 0; i < treeRow1.Length; i++)
             {
                 posY = 0 + (i * 80);
-                treeRow1[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100));
+                treeRow1[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
                 treeObjects.Add(treeRow1[i]);
             }
 
@@ -61,7 +61,7 @@ namespace Jokemon_Team_2
             {
                 posX = 50 + (i * 50);
 
-                treeRow2[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100));
+                treeRow2[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
                 treeObjects.Add(treeRow2[i]);
             }
             posX = 0;
@@ -71,7 +71,7 @@ namespace Jokemon_Team_2
             {
                 posX = 0 + (i * 50);
 
-                treeRow3[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100));
+                treeRow3[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
                 treeObjects.Add(treeRow3[i]);
             }
             posX = 430;
@@ -81,7 +81,7 @@ namespace Jokemon_Team_2
             {
                 posX = 430 + (i * 45);
 
-                treeRow4[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100));
+                treeRow4[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
                 treeObjects.Add(treeRow4[i]);
             }
             posX = 0;
@@ -91,7 +91,7 @@ namespace Jokemon_Team_2
             {
                 posY = 0 + (i * 80);
 
-                treeRow5[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100));
+                treeRow5[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
                 treeObjects.Add(treeRow5[i]);
             }
 
@@ -100,6 +100,8 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("Player_M");
             player = new Player(loadContent,new Vector2(360,380),new Vector2(35,50));
+            //loadContent = Content.Load<Texture2D>("woodenchest");
+            //house = new Building(loadContent, new Vector2(360, 380), new Vector2(50, 60));
         }
 
         protected override void Update(GameTime gameTime)
@@ -129,15 +131,19 @@ namespace Jokemon_Team_2
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGreen);
-            foreach(Tree t in treeObjects)
+            foreach (Tree t in treeObjects)
             {
                 t.DrawSprite(_spriteBatch, t.spriteTexture);
             }
-            
             player.DrawSprite(_spriteBatch, player.spriteTexture);
 
-            blackscreen.LoadLevel(player, _graphics);
-
+            if(player.spritePosition.Y <=5)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                
+            }
+            
+            
             base.Draw(gameTime);
         }
     }

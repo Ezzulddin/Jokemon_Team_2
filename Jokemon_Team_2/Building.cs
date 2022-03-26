@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Jokemon_Team_2
 {
+    
     class Building : Sprite
     {
         bool isCollidable = true;
