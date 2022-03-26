@@ -38,6 +38,7 @@ namespace Jokemon_Team_2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            timer = 60 * 3;
             base.Initialize();
         }
 
@@ -123,7 +124,8 @@ namespace Jokemon_Team_2
             //{
             //    pManager.CheckCollision(player, r);
             //}
-            
+            blackScreen.FadeScreen(player, GraphicsDevice, timer);
+
             base.Update(gameTime);
         }
 
@@ -137,8 +139,13 @@ namespace Jokemon_Team_2
             
             player.DrawSprite(_spriteBatch, player.spriteTexture);
 
-            blackscreen.LoadLevel(player, _graphics);
-
+            if(player.spritePosition.Y <=5)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                
+            }
+            
+            
             base.Draw(gameTime);
         }
     }
