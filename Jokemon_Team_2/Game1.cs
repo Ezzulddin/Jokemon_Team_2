@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics; 
 
 namespace Jokemon_Team_2
 {
@@ -126,8 +127,10 @@ namespace Jokemon_Team_2
             //}
             //foreach (ReadableObject r in signObjects)
             //{
-            //    pManager.CheckCollision(player, r);
+            //    pManager.CheckCollision(player, sign);
             //}
+            pManager.CheckCollision(player, sign);
+            //Debug.WriteLine(player.hasCollidedTop); 
             
             base.Update(gameTime);
         }
