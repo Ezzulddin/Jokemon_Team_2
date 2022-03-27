@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Diagnostics; 
+using System.Diagnostics;
 
 namespace Jokemon_Team_2
 {
@@ -10,25 +10,31 @@ namespace Jokemon_Team_2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
         private Player player;
         private ReadableObject sign;
         private MessageWindow MessageBox;
         private SpriteFont loadFont;
         private Texture2D loadContent;
-        private InputManager iManager = new InputManager();
+        
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
         private Tree[] treeRow3 = new Tree[7];
         private Tree[] treeRow4 = new Tree[8];
         private Tree[] treeRow5 = new Tree[10];
-        private List<Tree> treeObjects = new List<Tree>();
 
-        private LoadLevelClass blackscreen = new LoadLevelClass();
-        private PhysicsManager pManager = new PhysicsManager();
+        private Building chest;
         private List<Tree> treeObjects = new List<Tree>();
+        private BlackScreen blackscreen = new BlackScreen();
+        private PhysicsManager pManager = new PhysicsManager();
+        private InputManager iManager = new InputManager();
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
+
+        private bool isBlack;
+        private int timer;
+        Color background;
         private int posX = 0;
         private int posY = 0;
         private bool windowInPosition;
@@ -44,12 +50,14 @@ namespace Jokemon_Team_2
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            timer = 60 * 3;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             loadContent = Content.Load<Texture2D>("Big_tree");
             posX = 750;
             posY = 0;
@@ -100,24 +108,24 @@ namespace Jokemon_Team_2
                 treeRow5[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
                 treeObjects.Add(treeRow5[i]);
             }
+            loadContent = Content.Load<Texture2D>("woodenchest");
+            chest = new Building(loadContent, new Vector2(330, 380), new Vector2(40, 50));
 
             loadContent = Content.Load<Texture2D>("Player_M");
-            player = new Player(loadContent,new Vector2(360,380),new Vector2(35,50));
+            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
 
             loadContent = Content.Load<Texture2D>("Sign");
             sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30));
 
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
-            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750/2, 800), new Vector2(750, 150),loadFont ,("I'm ahead of schedule."), new Vector2(80, 670));
+            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("I'm ahead of schedule."), new Vector2(80, 670));
             //MessageWindow Types take 6 values:
             //Box Texture, its Position, Its size
             //Font File, The desired message, its position
 
-            
 
-            loadContent = Content.Load<Texture2D>("Player_M");
-            player = new Player(loadContent,new Vector2(360,380),new Vector2(35,50));
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -126,7 +134,7 @@ namespace Jokemon_Team_2
                 Exit();
 
             // TODO: Add your update logic here
-            iManager.CheckKeys(player,_graphics);
+            iManager.CheckKeys(player, _graphics);
 
             foreach (Tree t in treeObjects)
             {
@@ -144,18 +152,18 @@ namespace Jokemon_Team_2
 
 
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
-            if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9) 
+            if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
             {
                 //Move box up animation
                 MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y - 20);
                 //check if box in right place
-                if (MessageBox.spritePosition.Y <= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9) 
-                { 
+                if (MessageBox.spritePosition.Y <= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
+                {
                     windowInPosition = true;
                 }
             }
             //if player no longer standing under sign and the box is still on screen
-            if (player.hasCollidedTop == false && MessageBox.spritePosition.Y <801)
+            if (player.hasCollidedTop == false && MessageBox.spritePosition.Y < 801)
             {
                 //move box down so box is not in the engaged position 
                 MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
@@ -163,11 +171,28 @@ namespace Jokemon_Team_2
                 windowInPosition = false;
             }
 
+            ////////
+            if(player.spritePosition.Y <=5)
+            {
+                timer--;
+                background = Color.Black;
+                player.goingDown = false;
+                player.goingUp = false;
+                player.goingRight = false;
+                player.goingLeft = false;
+                if (background == Color.Black)
+                {
+                    isBlack = true;
+                }
+                else
+                {
+                    isBlack = false;
+                }
+            }
             
-
             base.Update(gameTime);
         }
-        //well
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGreen);
@@ -175,10 +200,36 @@ namespace Jokemon_Team_2
             {
                 t.DrawSprite(_spriteBatch, t.spriteTexture);
             }
-            
-            player.DrawSprite(_spriteBatch, player.spriteTexture);
 
-            blackscreen.LoadLevel(player, _graphics);
+            player.DrawSprite(_spriteBatch, player.spriteTexture);
+            sign.DrawSprite(_spriteBatch, sign.spriteTexture);
+            
+
+            //If the player is touching the bottom of the sign
+            if (player.hasCollidedTop == true)
+            {
+                //Draw the message box
+                MessageBox.DrawSprite(_spriteBatch, MessageBox.spriteTexture);
+                //If the message box is in the engaged position
+                if (windowInPosition == true)
+                {
+                    //Draw the text
+                    MessageBox.DrawMessage(_spriteBatch);
+                }
+            }
+
+            if (isBlack == true)
+            {
+                GraphicsDevice.Clear(background);
+            }
+            if (timer == 0)
+            {
+                loadContent = Content.Load<Texture2D>("Player_M");
+                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
+                isBlack = false;
+                blackscreen.Undraw(treeObjects,_spriteBatch,timer);
+                blackscreen.NewLevelDraw(_spriteBatch,chest);
+            }
 
             base.Draw(gameTime);
         }

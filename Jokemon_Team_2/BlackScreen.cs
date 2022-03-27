@@ -8,23 +8,38 @@ using System.Collections.Generic;
 
 namespace Jokemon_Team_2
 {
-    class BlackScreen
+    class BlackScreen : Sprite
     {
+        //public BlackScreen(Texture2D tex, Vector2 pos, Vector2 size)
+        //{
+        //    this.spriteTexture = tex;
+        //    this.spritePosition = pos;
+        //    this.spriteSize = size;
 
-        public void FadeScreen(Player p,GraphicsDevice inGraphics,int timer)
+        //}
+
+
+        public void Undraw(List<Tree> treeObjects,SpriteBatch spriteBatch,int timer)
         {
-            p.projectedPos = new Vector2(360, 380);
-            
-            if(p.spritePosition.Y <= 5)
+            foreach(Tree tr in treeObjects)
             {
-                inGraphics.Clear(Color.Black);
-                timer--;
-                
-                if(timer == 0)
+                if(tr.IsDraw)
                 {
-                    Rectangle playerNewPos = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
+                    tr.DrawSprite(spriteBatch,tr.spriteTexture);
+                    if(timer == 0)
+                    {
+                        tr.IsDraw = false;
+                    }
                 }
             }
         }
+        
+        public void NewLevelDraw(SpriteBatch spriteBatch,Building b)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(b.spriteTexture, new Rectangle((int)spritePosition.X, (int)spritePosition.Y, (int)spriteSize.X, (int)spriteSize.Y), Color.White);
+            spriteBatch.End();
+        }
+
     }
 }
