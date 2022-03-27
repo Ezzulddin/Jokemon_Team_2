@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics; 
 
 namespace Jokemon_Team_2
 {
@@ -9,23 +10,27 @@ namespace Jokemon_Team_2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private int posX = 0;
-        private int posY = 0;
-        private Texture2D loadContent;
         private Player player;
+        private ReadableObject sign;
+        private MessageWindow MessageBox;
+        private SpriteFont loadFont;
+        private Texture2D loadContent;
         private InputManager iManager = new InputManager();
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
         private Tree[] treeRow3 = new Tree[7];
         private Tree[] treeRow4 = new Tree[8];
         private Tree[] treeRow5 = new Tree[10];
-        private Building house;
-        
+        private List<Tree> treeObjects = new List<Tree>();
+        private LoadLevelClass blackscreen = new LoadLevelClass();
         private PhysicsManager pManager = new PhysicsManager();
         private List<Tree> treeObjects = new List<Tree>();
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
+        private int posX = 0;
+        private int posY = 0;
+        private bool windowInPosition;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -95,13 +100,23 @@ namespace Jokemon_Team_2
                 treeObjects.Add(treeRow5[i]);
             }
 
+            loadContent = Content.Load<Texture2D>("Player_M");
+            player = new Player(loadContent,new Vector2(360,380),new Vector2(35,50));
 
+            loadContent = Content.Load<Texture2D>("Sign");
+            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30));
 
+            loadContent = Content.Load<Texture2D>("MessageBox");
+            loadFont = Content.Load<SpriteFont>("File");
+            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750/2, 800), new Vector2(750, 150),loadFont ,("I'm ahead of schedule."), new Vector2(80, 670));
+            //MessageWindow Types take 6 values:
+            //Box Texture, its Position, Its size
+            //Font File, The desired message, its position
+
+            
 
             loadContent = Content.Load<Texture2D>("Player_M");
             player = new Player(loadContent,new Vector2(360,380),new Vector2(35,50));
-            //loadContent = Content.Load<Texture2D>("woodenchest");
-            //house = new Building(loadContent, new Vector2(360, 380), new Vector2(50, 60));
         }
 
         protected override void Update(GameTime gameTime)
@@ -122,9 +137,33 @@ namespace Jokemon_Team_2
             //}
             //foreach (ReadableObject r in signObjects)
             //{
-            //    pManager.CheckCollision(player, r);
+            //    pManager.CheckCollision(player, sign);
             //}
+            pManager.CheckCollision(player, sign);
+
+
+            //STAND UNDER SIGN TO ACTIVATE MESSAGE
+            if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9) 
+            {
+                //Move box up animation
+                MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y - 20);
+                //check if box in right place
+                if (MessageBox.spritePosition.Y <= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9) 
+                { 
+                    windowInPosition = true;
+                }
+            }
+            //if player no longer standing under sign and the box is still on screen
+            if (player.hasCollidedTop == false && MessageBox.spritePosition.Y <801)
+            {
+                //move box down so box is not in the engaged position 
+                MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
+                //box no longer in engaged position
+                windowInPosition = false;
+            }
+
             
+
             base.Update(gameTime);
         }
         //well
@@ -135,9 +174,11 @@ namespace Jokemon_Team_2
             {
                 t.DrawSprite(_spriteBatch, t.spriteTexture);
             }
+            
             player.DrawSprite(_spriteBatch, player.spriteTexture);
 
-            
+            blackscreen.LoadLevel(player, _graphics);
+
             base.Draw(gameTime);
         }
     }

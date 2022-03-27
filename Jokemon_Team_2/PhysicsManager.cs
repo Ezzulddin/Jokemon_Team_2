@@ -89,7 +89,7 @@ namespace Jokemon_Team_2
             }
 
         }
-        public void CheckCollision(Player p, ReadableObject r)
+        public bool CheckCollision(Player p, ReadableObject r)
         {
             Rectangle readableObjectRect = new Rectangle((int)r.spritePosition.X, (int)r.spritePosition.Y, (int)r.spriteSize.X, (int)r.spriteSize.Y);
 
@@ -162,6 +162,7 @@ namespace Jokemon_Team_2
                     p.hasCollidedBottom = false;
                 }
             }
+            return p.hasCollidedTop;
 
         }
         public void CheckCollision(Player p, Building b)
