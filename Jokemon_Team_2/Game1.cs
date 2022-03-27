@@ -22,6 +22,7 @@ namespace Jokemon_Team_2
         private Tree[] treeRow4 = new Tree[8];
         private Tree[] treeRow5 = new Tree[10];
         private List<Tree> treeObjects = new List<Tree>();
+
         private LoadLevelClass blackscreen = new LoadLevelClass();
         private PhysicsManager pManager = new PhysicsManager();
         private List<Tree> treeObjects = new List<Tree>();
