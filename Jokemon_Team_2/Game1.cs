@@ -137,12 +137,6 @@ namespace Jokemon_Team_2
             }
             player.DrawSprite(_spriteBatch, player.spriteTexture);
 
-            if(player.spritePosition.Y <=5)
-            {
-                GraphicsDevice.Clear(Color.Black);
-                
-            }
-            
             
             base.Draw(gameTime);
         }
