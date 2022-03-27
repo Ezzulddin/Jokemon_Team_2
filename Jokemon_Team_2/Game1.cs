@@ -127,7 +127,7 @@ namespace Jokemon_Team_2
             
             base.Update(gameTime);
         }
-
+        //well
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGreen);
