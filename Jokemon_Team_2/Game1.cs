@@ -172,9 +172,10 @@ namespace Jokemon_Team_2
             {
                 t.DrawSprite(_spriteBatch, t.spriteTexture);
             }
-            
-            player.DrawSprite(_spriteBatch, player.spriteTexture);
 
+            sign.DrawSprite(_spriteBatch, sign.spriteTexture);
+            player.DrawSprite(_spriteBatch, player.spriteTexture);
+            
             //If the player is touching the bottom of the sign
             if (player.hasCollidedTop == true)
             {
