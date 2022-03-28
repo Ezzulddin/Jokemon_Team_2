@@ -16,14 +16,15 @@ namespace Jokemon_Team_2
         private MessageWindow MessageBox;
         private SpriteFont loadFont;
         private Texture2D loadContent;
-        
+        private Building chest;
+
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
         private Tree[] treeRow3 = new Tree[7];
         private Tree[] treeRow4 = new Tree[8];
         private Tree[] treeRow5 = new Tree[10];
 
-        private Building chest;
+        
         private List<Tree> treeObjects = new List<Tree>();
         private BlackScreen blackscreen = new BlackScreen();
         private PhysicsManager pManager = new PhysicsManager();
