@@ -26,7 +26,6 @@ namespace Jokemon_Team_2
 
         
         private List<Tree> treeObjects = new List<Tree>();
-        private BlackScreen blackscreen = new BlackScreen();
         private PhysicsManager pManager = new PhysicsManager();
         private InputManager iManager = new InputManager();
         private List<Building> buildingObjects = new List<Building>();
@@ -109,14 +108,13 @@ namespace Jokemon_Team_2
                 treeRow5[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
                 treeObjects.Add(treeRow5[i]);
             }
-            loadContent = Content.Load<Texture2D>("woodenchest");
-            chest = new Building(loadContent, new Vector2(330, 380), new Vector2(40, 50));
 
             loadContent = Content.Load<Texture2D>("Player_M");
-            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
+            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
 
             loadContent = Content.Load<Texture2D>("Sign");
-            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30));
+            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30),true);
+            signObjects.Add(sign);
 
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
@@ -125,7 +123,9 @@ namespace Jokemon_Team_2
             //Box Texture, its Position, Its size
             //Font File, The desired message, its position
 
-
+            loadContent = Content.Load<Texture2D>("woodenchest");
+            chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50),true);
+            buildingObjects.Add(chest);
 
         }
 
@@ -199,11 +199,20 @@ namespace Jokemon_Team_2
             GraphicsDevice.Clear(Color.LightGreen);
             foreach (Tree t in treeObjects)
             {
-                t.DrawSprite(_spriteBatch, t.spriteTexture);
+                if(t.IsDraw)
+                {
+                    t.DrawSprite(_spriteBatch, t.spriteTexture);
+                }
             }
 
             player.DrawSprite(_spriteBatch, player.spriteTexture);
-            sign.DrawSprite(_spriteBatch, sign.spriteTexture);
+            foreach(ReadableObject s in signObjects)
+            {
+                if(s.IsDrawn)
+                {
+                    s.DrawSprite(_spriteBatch, sign.spriteTexture);
+                }
+            }
             
 
             //If the player is touching the bottom of the sign
@@ -222,14 +231,25 @@ namespace Jokemon_Team_2
             if (isBlack == true)
             {
                 GraphicsDevice.Clear(background);
+                foreach(Tree t in treeObjects)
+                {
+                    t.IsDraw = false;
+                }
+                foreach(ReadableObject s in signObjects)
+                {
+                    s.IsDrawn = false;
+                }
             }
             if (timer == 0)
             {
+                player.goingDown = true;
+                player.goingUp = true;
+                player.goingRight = true;
+                player.goingLeft = true;
                 loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
+                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
                 isBlack = false;
-                blackscreen.Undraw(treeObjects,_spriteBatch,timer);
-                blackscreen.NewLevelDraw(_spriteBatch,chest);
+                chest.DrawSprite(_spriteBatch, chest.spriteTexture);
             }
 
             base.Draw(gameTime);

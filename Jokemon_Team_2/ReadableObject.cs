@@ -9,12 +9,17 @@ namespace Jokemon_Team_2
 {
     class ReadableObject : Sprite
     {
-        bool isCollidable = true;
-        bool isInteractable = true;
-        public ReadableObject(Texture2D tex, Vector2 pos, Vector2 size)
+        private bool isDrawn;
+
+        public ReadableObject(Texture2D tex, Vector2 pos, Vector2 size, bool drawn)
             : base(tex, pos, size)
         {
-
+            isDrawn = drawn;
+        }
+        public bool IsDrawn
+        {
+            get { return isDrawn; }
+            set { isDrawn = value; }
         }
     }
 }
