@@ -227,6 +227,8 @@ namespace Jokemon_Team_2
             {
                 loadContent = Content.Load<Texture2D>("Player_M");
                 player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
+                loadContent = Content.Load<Texture2D>("House_Wood");
+                home1 = new Building(loadContent, new Vector2(150,150),new Vector2(150,150);
                 isBlack = false;
                 blackscreen.Undraw(treeObjects,_spriteBatch,timer);
                 blackscreen.NewLevelDraw(_spriteBatch,chest);

@@ -14,7 +14,13 @@ namespace Jokemon_Team_2
         bool inInteractable = true;
         public Building(Texture2D tex, Vector2 pos, Vector2 size) : base(tex, pos, size)
         {
+
         }
+
+
+
+
+
     }
 
 }
