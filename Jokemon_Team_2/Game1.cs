@@ -118,7 +118,7 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
-            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("I'm ahead of schedule."), new Vector2(80, 670));
+            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
             //MessageWindow Types take 6 values:
             //Box Texture, its Position, Its size
             //Font File, The desired message, its position
