@@ -30,6 +30,7 @@ namespace Jokemon_Team_2
         private int posX = 0;
         private int posY = 0;
         private bool windowInPosition;
+        private bool Sign_Initialize; 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -108,7 +109,7 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
-            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750/2, 800), new Vector2(750, 150),loadFont ,("I'm ahead of schedule."), new Vector2(80, 670));
+            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750/2, 800), new Vector2(750, 150),loadFont ,("Rest In Peace Ez 2004-2022"), new Vector2(80, 670));
             //MessageWindow Types take 6 values:
             //Box Texture, its Position, Its size
             //Font File, The desired message, its position
@@ -137,11 +138,12 @@ namespace Jokemon_Team_2
             //{
             //    pManager.CheckCollision(player, sign);
             //}
-            pManager.CheckCollision(player, sign);
+            Sign_Initialize = pManager.CheckSignCollision(player, sign);
+
 
 
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
-            if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9) 
+            if (Sign_Initialize == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9) 
             {
                 //Move box up animation
                 MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y - 20);
@@ -152,7 +154,7 @@ namespace Jokemon_Team_2
                 }
             }
             //if player no longer standing under sign and the box is still on screen
-            if (player.hasCollidedTop == false && MessageBox.spritePosition.Y <801)
+            if (Sign_Initialize == false && MessageBox.spritePosition.Y <801)
             {
                 //move box down so box is not in the engaged position 
                 MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
@@ -179,7 +181,7 @@ namespace Jokemon_Team_2
             player.DrawSprite(_spriteBatch, player.spriteTexture);
 
             //If the player is touching the bottom of the sign
-            if (player.hasCollidedTop == true)
+            if (Sign_Initialize == true)
             {
                 //Draw the message box
                 MessageBox.DrawSprite(_spriteBatch, MessageBox.spriteTexture);
