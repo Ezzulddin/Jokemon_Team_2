@@ -17,6 +17,7 @@ namespace Jokemon_Team_2
         private SpriteFont loadFont;
         private Texture2D loadContent;
         private Building chest;
+        private Building Home1;
 
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
@@ -127,6 +128,9 @@ namespace Jokemon_Team_2
             chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50),true);
             buildingObjects.Add(chest);
 
+            loadContent = loadContent.Load<Texture2D>("House_Wood");
+            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150));
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -213,7 +217,6 @@ namespace Jokemon_Team_2
                     s.DrawSprite(_spriteBatch, sign.spriteTexture);
                 }
             }
-            
 
             //If the player is touching the bottom of the sign
             if (player.hasCollidedTop == true)
@@ -248,10 +251,9 @@ namespace Jokemon_Team_2
                 player.goingLeft = true;
                 loadContent = Content.Load<Texture2D>("Player_M");
                 player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
-                loadContent = Content.Load<Texture2D>("House_Wood");
-                home1 = new Building(loadContent, new Vector2(150,150),new Vector2(150,150);
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
+                 Home1.DrawSprite(_spriteBatch, Home1.spriteTexture);
             }
 
             base.Draw(gameTime);
