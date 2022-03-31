@@ -130,6 +130,7 @@ namespace Jokemon_Team_2
 
             loadContent = loadContent.Load<Texture2D>("House_Wood");
             Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150));
+            buildingObjects.Add(Home1);
 
         }
 
@@ -253,7 +254,7 @@ namespace Jokemon_Team_2
                 player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
-                 Home1.DrawSprite(_spriteBatch, Home1.spriteTexture);
+                Home1.DrawSprite(_spriteBatch, Home1.spriteTexture);
             }
 
             base.Draw(gameTime);
