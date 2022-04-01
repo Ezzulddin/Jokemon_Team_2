@@ -128,8 +128,8 @@ namespace Jokemon_Team_2
             chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50),true);
             buildingObjects.Add(chest);
 
-            loadContent = loadContent.Load<Texture2D>("House_Wood");
-            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150));
+            loadContent = Content.Load<Texture2D>("House_Wood");
+            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150),true);
             buildingObjects.Add(Home1);
 
         }
@@ -251,7 +251,7 @@ namespace Jokemon_Team_2
                 player.goingRight = true;
                 player.goingLeft = true;
                 loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
+                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
                 Home1.DrawSprite(_spriteBatch, Home1.spriteTexture);
