@@ -119,7 +119,7 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
-            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("I'm ahead of schedule."), new Vector2(80, 670));
+            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("Ezz is the best team leader."), new Vector2(80, 670));
             //MessageWindow Types take 6 values:
             //Box Texture, its Position, Its size
             //Font File, The desired message, its position
@@ -243,12 +243,16 @@ namespace Jokemon_Team_2
             }
             if (timer == 0)
             {
-                player.goingDown = true;
-                player.goingUp = true;
-                player.goingRight = true;
-                player.goingLeft = true;
+                
                 loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
+                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true)
+                {
+                    goingDown = true,
+                    goingUp = true,
+                    goingRight = true,
+                    goingLeft = true
+                };
+                player = new Vector2(360, 380);
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
             }
