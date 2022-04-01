@@ -17,6 +17,7 @@ namespace Jokemon_Team_2
         private SpriteFont loadFont;
         private Texture2D loadContent;
         private Building chest;
+        private BlackScreen loadBlackScreen;
 
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
@@ -231,11 +232,11 @@ namespace Jokemon_Team_2
             if (isBlack == true)
             {
                 GraphicsDevice.Clear(background);
-                foreach(Tree t in treeObjects)
+                foreach (Tree t in treeObjects)
                 {
                     t.IsDraw = false;
                 }
-                foreach(ReadableObject s in signObjects)
+                foreach (ReadableObject s in signObjects)
                 {
                     s.IsDrawn = false;
                 }

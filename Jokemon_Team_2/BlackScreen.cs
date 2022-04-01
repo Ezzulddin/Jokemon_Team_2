@@ -12,14 +12,14 @@ namespace Jokemon_Team_2
     class BlackScreen
     {
         Color blackSCreen;
-        public void LoadBlackSCreen(bool isBlack, GraphicsDevice GraphicsDevice)
+        GraphicsDevice graphics;
+        public void LoadBlackSCreen(bool black, GraphicsDeviceManager GraphicsDevice)
         {
             blackSCreen = Color.Black;
-            if (isBlack == true)
+            if (black == true)
             {
-                GraphicsDevice.Clear(blackSCreen);
+                graphics.Clear(blackSCreen);
             }
-            
         }
     }
 }
