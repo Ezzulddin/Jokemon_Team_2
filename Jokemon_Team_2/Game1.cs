@@ -18,6 +18,7 @@ namespace Jokemon_Team_2
         private Texture2D loadContent;
         private Building chest;
         private Building Home1;
+        private Building Home2;
 
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
@@ -130,7 +131,10 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("House_Wood");
             Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150),true);
+            Home2 = new Building(loadContent, new Vector2(250, 200), new Vector2(250, 200), true);
             buildingObjects.Add(Home1);
+            buildingObjects.Add(Home2);
+
 
         }
 
@@ -209,7 +213,13 @@ namespace Jokemon_Team_2
                     t.DrawSprite(_spriteBatch, t.spriteTexture);
                 }
             }
-
+            foreach (Building b in buildingObjects)
+            {
+                if (b.IsDrawn)
+                {
+                    b.DrawSprite(_spriteBatch, b.spriteTexture);
+                }
+            }
             player.DrawSprite(_spriteBatch, player.spriteTexture);
             foreach(ReadableObject s in signObjects)
             {
@@ -254,7 +264,7 @@ namespace Jokemon_Team_2
                 player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
-                Home1.DrawSprite(_spriteBatch, Home1.spriteTexture);
+                
             }
 
             base.Draw(gameTime);
