@@ -128,17 +128,15 @@ namespace Jokemon_Team_2
             chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50),true);
             buildingObjects.Add(chest);
 
-            loadContent = loadContent.Load<Texture2D>("House_Wood");
-            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150));
+            loadContent = Content.Load<Texture2D>("House_Wood");
+            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150), true);
             buildingObjects.Add(Home1);
 
-        }
-
             loadContent = Content.Load<Texture2D>("Player_M");
-            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
+            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
 
             loadContent = Content.Load<Texture2D>("Sign");
-            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30),true);
+            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30), true);
             signObjects.Add(sign);
 
             loadContent = Content.Load<Texture2D>("MessageBox");
@@ -149,12 +147,16 @@ namespace Jokemon_Team_2
             //Font File, The desired message, its position
 
             loadContent = Content.Load<Texture2D>("woodenchest");
-            chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50),true);
+            chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50), true);
             buildingObjects.Add(chest);
 
-            Home1 = loadContent.Load<Texture2D>("House_Wood");
-            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150),true);
+            loadContent = Content.Load<Texture2D>("House_Wood");
+            Home1 = new Building(loadContent, new Vector2(150, 150), new Vector2(150, 150), true);
             buildingObjects.Add(Home1);
+
+        }
+
+            
 
         protected override void Update(GameTime gameTime)
         {
@@ -273,7 +275,7 @@ namespace Jokemon_Team_2
                 player.goingRight = true;
                 player.goingLeft = true;
                 loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50));
+                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
                 Home1.DrawSprite(_spriteBatch, Home1.spriteTexture);
