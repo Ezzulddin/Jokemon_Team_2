@@ -68,6 +68,23 @@
 /processorParam:TextureFormat=Color
 /build:Flower.png
 
+#begin House_Wood.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:House_Wood.png
+
+#begin Jokemon_TileMap.txt
+/importer:
+/processor:
+/build:Jokemon_TileMap.txt
+
 #begin MessageBox.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -17,6 +17,11 @@ namespace Jokemon_Team_2
         private SpriteFont loadFont;
         private Texture2D loadContent;
         private Building chest;
+        private Tile[,] tileArray;
+        private char[,] tileValueArray;
+        private const int TILE_SIZE = 80;
+        private Vector2 tileArea = new Vector2(80, 80);
+        private Vector2 tempPosition;
 
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
@@ -45,12 +50,15 @@ namespace Jokemon_Team_2
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 800;
+            MapReader.mapsize = 10;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             timer = 60 * 3;
+            tileArray = new Tile[MapReader.mapsize, MapReader.mapsize];
+            tileValueArray = MapReader.ReadFile("../../../../../../Content/Jokemon_TileMap.txt");
             base.Initialize();
         }
 
