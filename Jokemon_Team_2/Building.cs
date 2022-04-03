@@ -18,8 +18,9 @@ namespace Jokemon_Team_2
         public bool IsDrawn
         {
             get { return isDrawn; }
-            set { isDrawn = value; }
+            set {isDrawn = value; }
         }
+
     }
 
 }
