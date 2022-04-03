@@ -17,7 +17,6 @@ namespace Jokemon_Team_2
         private SpriteFont loadFont;
         private Texture2D loadContent;
         private Building chest;
-        private BlackScreen loadBlackScreen;
 
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
@@ -132,7 +131,7 @@ namespace Jokemon_Team_2
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
@@ -228,7 +227,6 @@ namespace Jokemon_Team_2
                     MessageBox.DrawMessage(_spriteBatch);
                 }
             }
-
             if (isBlack == true)
             {
                 GraphicsDevice.Clear(background);
@@ -243,7 +241,6 @@ namespace Jokemon_Team_2
             }
             if (timer == 0)
             {
-                
                 loadContent = Content.Load<Texture2D>("Player_M");
                 player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true)
                 {
@@ -252,7 +249,6 @@ namespace Jokemon_Team_2
                     goingRight = true,
                     goingLeft = true
                 };
-                player = new Vector2(360, 380);
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
             }
