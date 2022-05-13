@@ -146,6 +146,7 @@ namespace Jokemon_Team_2
                 if (p.hasCollidedLeft == false)
                 {
                     goLeft(p);
+                    SignInitialize = false;
                     p.hasCollidedRight = false;
                     p.hasCollidedTop = false;
                     p.hasCollidedBottom = false;
@@ -163,6 +164,7 @@ namespace Jokemon_Team_2
                 if (p.hasCollidedRight == false)
                 {
                     goRight(p);
+                    SignInitialize = false;
                     p.hasCollidedLeft = false;
                     p.hasCollidedTop = false;
                     p.hasCollidedBottom = false;

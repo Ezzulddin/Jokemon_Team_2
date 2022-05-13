@@ -24,19 +24,23 @@ namespace Jokemon_Team_2
         private Tree[] treeRow4 = new Tree[8];
         private Tree[] treeRow5 = new Tree[10];
 
-        
-        private List<Tree> treeObjects = new List<Tree>();
         private PhysicsManager pManager = new PhysicsManager();
+
         private InputManager iManager = new InputManager();
+
+        private List<Tree> treeObjects = new List<Tree>();
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
 
+        Color background;
+
         private bool isBlack;
         private int timer;
-        Color background;
+
         private int posX = 0;
         private int posY = 0;
+
         private bool windowInPosition;
         private bool Sign_Initialize; 
         public Game1()
@@ -52,6 +56,18 @@ namespace Jokemon_Team_2
         {
             // TODO: Add your initialization logic here
             timer = 60 * 3;
+            if (timer == 1)
+            {
+                //player.goingDown = true;
+                //player.goingUp = true;
+                //player.goingRight = true;
+                //player.goingLeft = true;
+                //loadContent = Content.Load<Texture2D>("Player_M");
+                //player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
+                isBlack = false;
+                player.spritePosition = new Vector2(350, 350);
+
+            }
             base.Initialize();
         }
 
@@ -138,10 +154,18 @@ namespace Jokemon_Team_2
             // TODO: Add your update logic here
             iManager.CheckKeys(player, _graphics);
 
-            foreach (Tree t in treeObjects)
+            if(isBlack == false)
             {
-                pManager.CheckCollision(player, t);
+
+                foreach (Tree t in treeObjects)
+                {
+                    pManager.CheckCollision(player, t);
+                }
+
+                Sign_Initialize = pManager.CheckSignCollision(player, sign);
+
             }
+
             //foreach (Building b in buildingObjects)
             //{
             //    pManager.CheckCollision(player, b);
@@ -150,9 +174,6 @@ namespace Jokemon_Team_2
             //{
             //    pManager.CheckCollision(player, sign);
             //}
-            Sign_Initialize = pManager.CheckSignCollision(player, sign);
-
-
 
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
             if (Sign_Initialize == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9) 
@@ -175,14 +196,10 @@ namespace Jokemon_Team_2
             }
 
             ////////
-            if(player.spritePosition.Y <=5)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.L))
             {
                 timer--;
                 background = Color.Black;
-                player.goingDown = false;
-                player.goingUp = false;
-                player.goingRight = false;
-                player.goingLeft = false;
                 if (background == Color.Black)
                 {
                     isBlack = true;
@@ -192,67 +209,77 @@ namespace Jokemon_Team_2
                     isBlack = false;
                 }
             }
-            
+
+            if (timer == 1)
+            {
+                //player.goingDown = true;
+                //player.goingUp = true;
+                //player.goingRight = true;
+                //player.goingLeft = true;
+                //loadContent = Content.Load<Texture2D>("Player_M");
+                //player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
+                isBlack = false;
+
+            }
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGreen);
-            foreach (Tree t in treeObjects)
+            if (isBlack == false)
             {
-                if(t.IsDraw)
+                foreach (Tree t in treeObjects)
                 {
-                    t.DrawSprite(_spriteBatch, t.spriteTexture);
+                    if (t.IsDraw)
+                    {
+                        t.DrawSprite(_spriteBatch, t.spriteTexture);
+                    }
                 }
-            }
 
-            player.DrawSprite(_spriteBatch, player.spriteTexture);
-            foreach(ReadableObject s in signObjects)
-            {
-                if(s.IsDrawn)
-                {
-                    s.DrawSprite(_spriteBatch, sign.spriteTexture);
-                }
-            }
-            
+                player.DrawSprite(_spriteBatch, player.spriteTexture);
 
-            //If the player is touching the bottom of the sign
-            if (Sign_Initialize == true)
-            {
-                //Draw the message box
-                MessageBox.DrawSprite(_spriteBatch, MessageBox.spriteTexture);
-                //If the message box is in the engaged position
-                if (windowInPosition == true)
+                foreach (ReadableObject s in signObjects)
                 {
-                    //Draw the text
-                    MessageBox.DrawMessage(_spriteBatch);
+                    if (s.IsDrawn)
+                    {
+                        s.DrawSprite(_spriteBatch, sign.spriteTexture);
+                    }
                 }
+
+
+                //If the player is touching the bottom of the sign
+                if (Sign_Initialize == true)
+                {
+                    //Draw the message box
+                    MessageBox.DrawSprite(_spriteBatch, MessageBox.spriteTexture);
+                    //If the message box is in the engaged position
+                    if (windowInPosition == true)
+                    {
+                        //Draw the text
+                        MessageBox.DrawMessage(_spriteBatch);
+                    }
+                }
+
+                chest.DrawSprite(_spriteBatch, chest.spriteTexture);
+
             }
 
             if (isBlack == true)
             {
                 GraphicsDevice.Clear(background);
-                foreach(Tree t in treeObjects)
-                {
-                    t.IsDraw = false;
-                }
-                foreach(ReadableObject s in signObjects)
-                {
-                    s.IsDrawn = false;
-                }
             }
-            if (timer == 0)
-            {
-                player.goingDown = true;
-                player.goingUp = true;
-                player.goingRight = true;
-                player.goingLeft = true;
-                loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
-                isBlack = false;
-                chest.DrawSprite(_spriteBatch, chest.spriteTexture);
-            }
+                //    foreach (Tree t in treeObjects)
+                //    {
+                //        t.IsDraw = false;
+                //    }
+                //    foreach (ReadableObject s in signObjects)
+                //    {
+                //        s.IsDrawn = false;
+                //    }
+                //}
+
+
 
             base.Draw(gameTime);
         }
