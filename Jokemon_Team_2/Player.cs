@@ -20,15 +20,17 @@ namespace Jokemon_Team_2
         public bool goingUp;
         public bool goingDown;
 
-        bool isCollidable = true;
-        bool isControllable = true;
+        private bool isDrawn;
 
-        public Player(Texture2D tex, Vector2 pos, Vector2 size) : base(tex, pos, size)
+        public Player(Texture2D tex, Vector2 pos, Vector2 size,bool draw) : base(tex, pos, size)
         {
-
+            isDrawn = draw;
         }
-
-
+        public bool IsDrawn
+        {
+            get { return isDrawn; }
+            set { isDrawn = value; }
+        }
     }
 }
 
