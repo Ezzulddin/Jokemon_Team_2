@@ -12,17 +12,18 @@ namespace Jokemon_Team_2
         public Texture2D spriteTexture { get; set; }
         public Vector2 spritePosition { get; set; }
         public Vector2 spriteSize { get; set; }
-
+        //public Color spriteColour { get; set; }
         public Sprite()
         {
 
         }
 
-        public Sprite(Texture2D tex, Vector2 pos, Vector2 size)
+        public Sprite(Texture2D tex, Vector2 pos, Vector2 size/*,Color col*/)
         {
             this.spriteTexture = tex;
             this.spritePosition = pos;
             this.spriteSize = size;
+            //this.spriteColour = col;
 
         }
 
