@@ -35,7 +35,7 @@ namespace Jokemon_Team_2
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
 
-        private Tile[,] tileArray;
+        private Tile[,] tileArray = new Tile[10,10];
         private char[,] tileValuesArray;
         private Texture2D big, building, Tile_sign;
         private const int TILE_SIZE = 80;
@@ -152,14 +152,18 @@ namespace Jokemon_Team_2
             Vector2 temPosition;
             Vector2 size = new Vector2(TILE_SIZE, TILE_SIZE);
 
-            for (int i = 0; i <= tileValuesArray.GetUpperBound(0); i++)
+            for (int i = 0; i <= tileArray.GetUpperBound(0); i++)
             {
-                for(int j = 0; j<=tileValuesArray.GetUpperBound(1);j++)
+                for(int j = 0; j<=tileArray.GetUpperBound(1);j++)
                 {
-                    if(tileValuesArray[i,j] =='1')
+                    if(tileValuesArray[i,j].ToString().Contains("1") )
                     {
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
                         tileArray[i, j] = new Tile(big,temPosition,size);
+                    }
+                    else
+                    {
+                        //tileArray[i, j] = new Tile(new Rectangle(0,0,0,0), new Vector2(0,0), new Vector2(0,0));
                     }
                 }
             }
