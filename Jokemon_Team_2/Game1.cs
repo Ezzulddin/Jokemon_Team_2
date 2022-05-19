@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System;
 
 namespace Jokemon_Team_2
 {
@@ -59,7 +60,7 @@ namespace Jokemon_Team_2
         {
             // TODO: Add your initialization logic here
             tileArray = new Tile[MapReader.MapSize, MapReader.MapSize];
-            tileValuesArray = MapReader.ReadFile("../Tile_Map.txt");
+            tileValuesArray = MapReader.ReadFile("../../../Content/Text_file/Tile_Map");
 
             base.Initialize();
         }
@@ -120,8 +121,8 @@ namespace Jokemon_Team_2
             //    treeObjects.Add(treeRow5[i]);
             //}
 
-            //loadContent = Content.Load<Texture2D>("Player_M");
-            //player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
+            loadContent = Content.Load<Texture2D>("Player_M");
+            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
 
             //loadContent = Content.Load<Texture2D>("Sign");
             ////sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30),true);
@@ -176,14 +177,14 @@ namespace Jokemon_Team_2
             {
                 pManager.CheckCollision(player, t);
             }
-            //foreach (Building b in buildingObjects)
-            //{
-            //    pManager.CheckCollision(player, b);
-            //}
-            //foreach (ReadableObject r in signObjects)
-            //{
-            //    pManager.CheckCollision(player, sign);
-            //}
+            foreach (Building b in buildingObjects)
+            {
+                pManager.CheckCollision(player, b);
+            }
+            foreach (ReadableObject r in signObjects)
+            {
+                pManager.CheckCollision(player, sign);
+            }
             pManager.CheckCollision(player, sign);
 
 
