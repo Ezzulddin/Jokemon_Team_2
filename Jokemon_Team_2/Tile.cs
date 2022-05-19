@@ -11,12 +11,10 @@ namespace Jokemon_Team_2
     {
         public Tile()
         {
-
         }
         public Tile(Texture2D inTexture,Vector2 inPosition,Vector2 inSize)
             : base(inTexture,inPosition,inSize)
         {
-
         }
         public Vector2 GetTilePosition { get; set; }
         public string TileType { get; set; }

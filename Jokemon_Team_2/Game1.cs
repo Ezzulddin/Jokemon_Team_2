@@ -37,7 +37,7 @@ namespace Jokemon_Team_2
 
         private Tile[,] tileArray;
         private char[,] tileValuesArray;
-        private Texture2D big_tree, building, Tile_sign;
+        private Texture2D big, building, Tile_sign;
         private const int TILE_SIZE = 80;
 
         private bool isBlack;
@@ -69,7 +69,7 @@ namespace Jokemon_Team_2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            big_tree = loadContent = Content.Load<Texture2D>("Big_tree");
+            big = loadContent = Content.Load<Texture2D>("Big_tree");
             //treeObjects.Add(treeRow1);
             //posX = 750;
             //posY = 0;
@@ -159,7 +159,7 @@ namespace Jokemon_Team_2
                     if(tileValuesArray[i,j] =='1')
                     {
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
-                        tileArray[i, j] = new Tile(big_tree,temPosition,size);
+                        tileArray[i, j] = new Tile(big,temPosition,size);
                     }
                 }
             }
@@ -173,59 +173,59 @@ namespace Jokemon_Team_2
             // TODO: Add your update logic here
             iManager.CheckKeys(player, _graphics);
 
-            foreach (Tree t in treeObjects)
-            {
-                pManager.CheckCollision(player, t);
-            }
-            foreach (Building b in buildingObjects)
-            {
-                pManager.CheckCollision(player, b);
-            }
-            foreach (ReadableObject r in signObjects)
-            {
-                pManager.CheckCollision(player, sign);
-            }
-            pManager.CheckCollision(player, sign);
+            //foreach (Tree t in treeObjects)
+            //{
+            //    pManager.CheckCollision(player, t);
+            //}
+            //foreach (Building b in buildingObjects)
+            //{
+            //    pManager.CheckCollision(player, b);
+            //}
+            //foreach (ReadableObject r in signObjects)
+            //{
+            //    pManager.CheckCollision(player, sign);
+            //}
+            //pManager.CheckCollision(player, sign);
 
 
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
-            if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
-            {
-                //Move box up animation
-                MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y - 20);
-                //check if box in right place
-                if (MessageBox.spritePosition.Y <= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
-                {
-                    windowInPosition = true;
-                }
-            }
+            //if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
+            //{
+            //    //Move box up animation
+            //    MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y - 20);
+            //    //check if box in right place
+            //    if (MessageBox.spritePosition.Y <= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
+            //    {
+            //        windowInPosition = true;
+            //    }
+            //}
             //if player no longer standing under sign and the box is still on screen
-            if (player.hasCollidedTop == false && MessageBox.spritePosition.Y < 801)
-            {
-                //move box down so box is not in the engaged position 
-                MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
-                //box no longer in engaged position
-                windowInPosition = false;
-            }
+            //if (player.hasCollidedTop == false && MessageBox.spritePosition.Y < 801)
+            //{
+            //    //move box down so box is not in the engaged position 
+            //    MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
+            //    //box no longer in engaged position
+            //    windowInPosition = false;
+            //}
 
             ////////
-            if(player.spritePosition.Y <=5)
-            {
-                timer--;
-                background = Color.Black;
-                player.goingDown = false;
-                player.goingUp = false;
-                player.goingRight = false;
-                player.goingLeft = false;
-                if (background == Color.Black)
-                {
-                    isBlack = true;
-                }
-                else
-                {
-                    isBlack = false;
-                }
-            }
+            //if(player.spritePosition.Y <=5)
+            //{
+            //    timer--;
+            //    background = Color.Black;
+            //    player.goingDown = false;
+            //    player.goingUp = false;
+            //    player.goingRight = false;
+            //    player.goingLeft = false;
+            //    if (background == Color.Black)
+            //    {
+            //        isBlack = true;
+            //    }
+            //    else
+            //    {
+            //        isBlack = false;
+            //    }
+            //}
             
             base.Update(gameTime);
         }
@@ -252,9 +252,9 @@ namespace Jokemon_Team_2
             //    }
             //}
             player.DrawSprite(_spriteBatch, player.spriteTexture);
-            //foreach(ReadableObject s in signObjects)
+            //foreach (ReadableObject s in signObjects)
             //{
-            //    if(s.IsDrawn)
+            //    if (s.IsDrawn)
             //    {
             //        s.DrawSprite(_spriteBatch, sign.spriteTexture);
             //    }
