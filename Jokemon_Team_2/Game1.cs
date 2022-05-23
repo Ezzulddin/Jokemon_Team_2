@@ -27,13 +27,14 @@ namespace Jokemon_Team_2
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
 
+
         private Tile[,] tileArray = new Tile[10, 10];
         private char[,] tileValuesArray;
         private Texture2D big_tree, building, Tile_sign;
         private const int TILE_SIZE = 80;
 
-        private MouseState oldMouseState;
         MouseState mouse;
+        private bool mousePressed = false;
 
         private bool windowInPosition;
         public Game1()
@@ -118,20 +119,25 @@ namespace Jokemon_Team_2
 
         protected override void Update(GameTime gameTime)
         {
-            mouse = Mouse.GetState();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if(mouse.LeftButton == ButtonState.Pressed)
-            {
-                Debug.WriteLine("Mouse Pressed");
-            }
-            //Debug.WriteLine("X:{0} Y:{1}",mouse.X,mouse.Y);
+            mouse = Mouse.GetState();
+
+            Debug.WriteLine("X:{0} Y:{1}", mouse.X, mouse.Y);
             
+            //if (mouse.X == )
+            //{
+            //    if(mouse.LeftButton == ButtonState.Pressed)
+            //    {
+            //        Debug.WriteLine("Mouse Pressed");
+            //        mousePressed = true;
+            //    }
+            //}
 
             // TODO: Add your update logic here
-            iManager.CheckKeys(player, _graphics);
+            iManager.CheckKeys(player,_graphics);
 
             foreach (Tree t in treeObjects)
             {
@@ -174,14 +180,24 @@ namespace Jokemon_Team_2
 
         protected override void Draw(GameTime gameTime)
         {
+            bool draw = true;
             GraphicsDevice.Clear(Color.LightGreen);
             foreach (Tile t in tileArray)
             {
-                t.DrawSprite(_spriteBatch, t.spriteTexture);
+                if(draw == true)
+                {
+                    t.DrawSprite(_spriteBatch, t.spriteTexture);
+                }
+                
+                if(mousePressed == true)
+                {
+                    draw = false;
+
+                }
             }
 
             player.DrawSprite(_spriteBatch, player.spriteTexture);
-
+            
             //If the player is touching the bottom of the sign
             if (player.hasCollidedTop == true)
             {
@@ -194,6 +210,7 @@ namespace Jokemon_Team_2
                     MessageBox.DrawMessage(_spriteBatch);
                 }
             }
+            
 
 
             base.Draw(gameTime);

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Jokemon_Team_2
 {
@@ -12,10 +13,6 @@ namespace Jokemon_Team_2
         KeyboardState state;
         MouseState mouse;
 
-        public void CheckMouse()
-        {
-
-        }
         public void CheckKeys(Player playerSprite,GraphicsDeviceManager inGraphics)
         {
             state = Keyboard.GetState();
