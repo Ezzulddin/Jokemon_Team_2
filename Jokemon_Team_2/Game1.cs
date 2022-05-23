@@ -18,6 +18,9 @@ namespace Jokemon_Team_2
         private Texture2D loadContent;
         private Building chest;
         private Building Home1;
+        private Building Home2;
+        private Building Home3;
+        private Building Home4;
 
         private Tree[] treeRow1 = new Tree[10];
         private Tree[] treeRow2 = new Tree[15];
@@ -129,30 +132,11 @@ namespace Jokemon_Team_2
             buildingObjects.Add(chest);
 
             loadContent = Content.Load<Texture2D>("House_Wood");
-            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150), true);
+            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150),true);
+            Home2 = new Building(loadContent, new Vector2(250, 200), new Vector2(250, 200), true);
             buildingObjects.Add(Home1);
+            buildingObjects.Add(Home2);
 
-            loadContent = Content.Load<Texture2D>("Player_M");
-            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
-
-            loadContent = Content.Load<Texture2D>("Sign");
-            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30), true);
-            signObjects.Add(sign);
-
-            loadContent = Content.Load<Texture2D>("MessageBox");
-            loadFont = Content.Load<SpriteFont>("File");
-            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
-            //MessageWindow Types take 6 values:
-            //Box Texture, its Position, Its size
-            //Font File, The desired message, its position
-
-            loadContent = Content.Load<Texture2D>("woodenchest");
-            chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50), true);
-            buildingObjects.Add(chest);
-
-            loadContent = Content.Load<Texture2D>("House_Wood");
-            Home1 = new Building(loadContent, new Vector2(150, 150), new Vector2(150, 150), true);
-            buildingObjects.Add(Home1);
 
         }
 
