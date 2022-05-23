@@ -72,7 +72,7 @@ namespace Jokemon_Team_2
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
             MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
-
+            
 
             CreateMap();
         }
@@ -118,10 +118,16 @@ namespace Jokemon_Team_2
 
         protected override void Update(GameTime gameTime)
         {
-
             mouse = Mouse.GetState();
 
-            Console.WriteLine("X:{0} Y:{1}",mouse.X,mouse.Y);
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+
+            if(mouse.LeftButton == ButtonState.Pressed)
+            {
+                Debug.WriteLine("Mouse Pressed");
+            }
+            //Debug.WriteLine("X:{0} Y:{1}",mouse.X,mouse.Y);
             
 
             // TODO: Add your update logic here

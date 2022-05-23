@@ -10,7 +10,12 @@ namespace Jokemon_Team_2
     class InputManager
     {
         KeyboardState state;
+        MouseState mouse;
 
+        public void CheckMouse()
+        {
+
+        }
         public void CheckKeys(Player playerSprite,GraphicsDeviceManager inGraphics)
         {
             state = Keyboard.GetState();
