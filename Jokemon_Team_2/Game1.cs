@@ -27,10 +27,13 @@ namespace Jokemon_Team_2
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
 
-        private Tile[,] tileArray = new Tile[10,10];
+        private Tile[,] tileArray = new Tile[10, 10];
         private char[,] tileValuesArray;
         private Texture2D big_tree, building, Tile_sign;
         private const int TILE_SIZE = 80;
+
+        private MouseState oldMouseState;
+        MouseState mouse;
 
         private bool windowInPosition;
         public Game1()
@@ -48,7 +51,7 @@ namespace Jokemon_Team_2
             // TODO: Add your initialization logic here
             tileArray = new Tile[MapReader.MapSize, MapReader.MapSize];
             tileValuesArray = MapReader.ReadFile("../../../Content/Text_file/Tile_Map");
-
+            
             base.Initialize();
         }
 
@@ -56,12 +59,12 @@ namespace Jokemon_Team_2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            big_tree= Content.Load<Texture2D>("Big_tree");
-            
+            big_tree = Content.Load<Texture2D>("Big_tree");
+
             building = Content.Load<Texture2D>("House_Wood");
-            
+
             Tile_sign = Content.Load<Texture2D>("Sign");
-            
+
             loadContent = Content.Load<Texture2D>("Player_M");
             player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
 
@@ -69,25 +72,25 @@ namespace Jokemon_Team_2
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
             MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
-            
+
 
             CreateMap();
         }
         public void CreateMap()
         {
-            
+
             Vector2 temPosition;
             Vector2 bSize = new Vector2(150, 150);
-            Vector2 tSize = new Vector2(80,100);
-            Vector2 sSize = new Vector2(30,30);
+            Vector2 tSize = new Vector2(80, 100);
+            Vector2 sSize = new Vector2(30, 30);
             for (int i = 0; i <= tileArray.GetUpperBound(0); i++)
             {
-                for(int j = 0; j <=tileArray.GetUpperBound(1);j++)
+                for (int j = 0; j <= tileArray.GetUpperBound(1); j++)
                 {
-                    if(tileValuesArray[i,j].ToString().Contains("1") )
+                    if (tileValuesArray[i, j].ToString().Contains("1"))
                     {
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
-                        tileArray[i, j] = new Tile(big_tree,temPosition, tSize);
+                        tileArray[i, j] = new Tile(big_tree, temPosition, tSize);
                         trees = new Tree(big_tree, temPosition, tSize, true);
                         treeObjects.Add(trees);
                     }
@@ -105,9 +108,9 @@ namespace Jokemon_Team_2
                         Wood_sign = new ReadableObject(Tile_sign, temPosition, sSize, true);
                         signObjects.Add(Wood_sign);
                     }
-                    else if(tileValuesArray[i, j].ToString().Contains("0"))
+                    else if (tileValuesArray[i, j].ToString().Contains("0"))
                     {
-                        tileArray[i, j] = new Tile(new Texture2D(GraphicsDevice,10,10), new Vector2(0,0), new Vector2(0,0));
+                        tileArray[i, j] = new Tile(new Texture2D(GraphicsDevice, 10, 10), new Vector2(0, 0), new Vector2(0, 0));
                     }
                 }
             }
@@ -115,8 +118,11 @@ namespace Jokemon_Team_2
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+
+            mouse = Mouse.GetState();
+
+            Console.WriteLine("X:{0} Y:{1}",mouse.X,mouse.Y);
+            
 
             // TODO: Add your update logic here
             iManager.CheckKeys(player, _graphics);
@@ -163,13 +169,13 @@ namespace Jokemon_Team_2
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGreen);
-            foreach(Tile t in tileArray)
+            foreach (Tile t in tileArray)
             {
-                t.DrawSprite(_spriteBatch,t.spriteTexture);
+                t.DrawSprite(_spriteBatch, t.spriteTexture);
             }
 
             player.DrawSprite(_spriteBatch, player.spriteTexture);
-            
+
             //If the player is touching the bottom of the sign
             if (player.hasCollidedTop == true)
             {

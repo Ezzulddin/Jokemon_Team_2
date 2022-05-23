@@ -119,6 +119,7 @@ namespace Jokemon_Team_2
                 if (projectedPlayerRect.Intersects(readableObjectRect))
                 {
                     p.hasCollidedBottom = true;
+
                 }
                 if (p.hasCollidedBottom == false)
                 {
