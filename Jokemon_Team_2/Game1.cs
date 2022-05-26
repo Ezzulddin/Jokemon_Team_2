@@ -138,7 +138,7 @@ namespace Jokemon_Team_2
             tr1Rect = new Rectangle(0, 0, 320, 100);
             tr2Rect = new Rectangle(480, 0, 320, 100);
             tr3Rect = new Rectangle(0, 800, 80, 100);
-            h1Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, 150,150);
+            h1Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, building.Width,building.Height);
             h2Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, building.Width, building.Height);
             s1Rect = new Rectangle((int)Wood_sign.spritePosition.X, (int)Wood_sign.spritePosition.Y, Tile_sign.Width, Tile_sign.Height);
 
@@ -238,31 +238,6 @@ namespace Jokemon_Team_2
                     //Draw the text
                     MessageBox.DrawMessage(_spriteBatch);
                 }
-            }
-
-            if (isBlack == true)
-            {
-                GraphicsDevice.Clear(background);
-                foreach(Tree t in treeObjects)
-                {
-                    t.IsDraw = false;
-                }
-                foreach(ReadableObject s in signObjects)
-                {
-                    s.IsDrawn = false;
-                }
-            }
-            if (timer == 0)
-            {
-                player.goingDown = true;
-                player.goingUp = true;
-                player.goingRight = true;
-                player.goingLeft = true;
-                loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
-                isBlack = false;
-                chest.DrawSprite(_spriteBatch, chest.spriteTexture);
-                
             }
 
             base.Draw(gameTime);
