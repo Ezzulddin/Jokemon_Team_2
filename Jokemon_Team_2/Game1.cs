@@ -9,6 +9,7 @@ namespace Jokemon_Team_2
 {
     public class Game1 : Game
     {
+        // comment
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
