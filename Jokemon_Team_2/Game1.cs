@@ -239,7 +239,7 @@ namespace Jokemon_Team_2
                         //Move box up animation
                         MessageBox.spritePosition = new Vector2(MessageBox.spriteSize.X / 2 - 350, MessageBox.spritePosition.Y - 20);
                         //check if box in right place
-                        if (MessageBox.spritePosition.Y <= 801)
+                        if (MessageBox.spritePosition.Y <= 650)
                         {
                             windowInPosition = true;
                         }
