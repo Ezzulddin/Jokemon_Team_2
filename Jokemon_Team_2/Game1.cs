@@ -15,7 +15,6 @@ namespace Jokemon_Team_2
         private ReadableObject sign;
         private ReadableObject sign2;
         private MessageWindow MessageBox;
-        private MessageWindow MessageBox2;
         private SpriteFont loadFont;
         private Texture2D loadContent;
         private Building chest;
@@ -37,8 +36,6 @@ namespace Jokemon_Team_2
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
         private List<string> MessageList = new List<string>();
-
-        private string selectMessage;
 
         public static int screenWidth;
         public static int screenHeight;
