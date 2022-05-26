@@ -186,7 +186,6 @@ namespace Jokemon_Team_2
 
             // TODO: Add your update logic here
             iManager.CheckKeys(player, _graphics);
-
             cManager.Follow(player);
 
             if (isBlack == false)
@@ -196,6 +195,10 @@ namespace Jokemon_Team_2
                 {
                     pManager.CheckCollision(player, t);
                 }
+                //foreach (Building b in buildingObjects)
+                //{
+                //    pManager.CheckCollision(player, b);
+                //}
 
                 //SIGN STUFF
                 float distX;
