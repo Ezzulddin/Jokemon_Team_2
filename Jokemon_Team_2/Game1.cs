@@ -156,8 +156,8 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("MessageBox");
             MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750/2, 800), new Vector2(750, 150));
-            MessageList.Add("Rest in Peace Ez 2004-2000000000");
-            MessageList.Add("I have the biggest pp." + System.Environment.NewLine + "");
+            MessageList.Add("Rest in Peace Ez 2004-2000");
+            MessageList.Add("I am sorry this took so long." + System.Environment.NewLine + "");
             MessageList.Add("I am so sorry this took so long");
             //MessageWindow Types take 6 values:
             //Box Texture, its Position, Its size
@@ -331,6 +331,8 @@ namespace Jokemon_Team_2
          
 
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture,cManager);
+                Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
+                Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
 
             }
 
@@ -355,7 +357,6 @@ namespace Jokemon_Team_2
                 loadContent = Content.Load<Texture2D>("Player_M");
                 player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
                 isBlack = false;
-                chest.DrawSprite(_spriteBatch, chest.spriteTexture);
                 
             }
                 //    foreach (Tree t in treeObjects)
