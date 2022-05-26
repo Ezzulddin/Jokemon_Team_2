@@ -26,6 +26,7 @@ namespace Jokemon_Team_2
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
+        private List<Rectangle> rectangleObjects = new List<Rectangle>();
 
 
         private Tile[,] tileArray = new Tile[10, 10];
@@ -33,9 +34,20 @@ namespace Jokemon_Team_2
         private Texture2D big_tree, building, Tile_sign;
         private const int TILE_SIZE = 80;
 
+
+        private Rectangle tc1Rect = new Rectangle();
+        private Rectangle tc2Rect = new Rectangle();
+        private Rectangle tr1Rect = new Rectangle();
+        private Rectangle tr2Rect = new Rectangle();
+        private Rectangle tr3Rect = new Rectangle();
+        private Rectangle h1Rect = new Rectangle();
+        private Rectangle h2Rect = new Rectangle();
+        private Rectangle s1Rect = new Rectangle();
+
         MouseState mouse;
         private bool mousePressed = false;
-
+        public static int screenWidth;
+        public static int screenHeight;
         private bool windowInPosition;
         public Game1()
         {
@@ -44,6 +56,11 @@ namespace Jokemon_Team_2
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 800;
+            _graphics.ApplyChanges();
+
+            screenHeight = _graphics.PreferredBackBufferHeight;
+            screenWidth = _graphics.PreferredBackBufferWidth;
+
             MapReader.MapSize = 10;
         }
 
@@ -55,31 +72,8 @@ namespace Jokemon_Team_2
             
             base.Initialize();
         }
-
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            big_tree = Content.Load<Texture2D>("Big_tree");
-
-            building = Content.Load<Texture2D>("House_Wood");
-
-            Tile_sign = Content.Load<Texture2D>("Sign");
-
-            loadContent = Content.Load<Texture2D>("Player_M");
-            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
-
-
-            loadContent = Content.Load<Texture2D>("MessageBox");
-            loadFont = Content.Load<SpriteFont>("File");
-            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
-            
-
-            CreateMap();
-        }
         public void CreateMap()
         {
-
             Vector2 temPosition;
             Vector2 bSize = new Vector2(150, 150);
             Vector2 tSize = new Vector2(80, 100);
@@ -100,6 +94,7 @@ namespace Jokemon_Team_2
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
                         tileArray[i, j] = new Tile(building, temPosition, bSize);
                         house = new Building(building, temPosition, bSize, true);
+                        Debug.WriteLine("X: {0} Y:{1}", house.spritePosition.X, house.spritePosition.Y);
                         buildingObjects.Add(house);
                     }
                     if (tileValuesArray[i, j].ToString().Contains("3"))
@@ -107,6 +102,7 @@ namespace Jokemon_Team_2
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
                         tileArray[i, j] = new Tile(Tile_sign, temPosition, sSize);
                         Wood_sign = new ReadableObject(Tile_sign, temPosition, sSize, true);
+                        Debug.WriteLine("X: {0} Y: {1}", Wood_sign.spritePosition.X, Wood_sign.spritePosition.Y);
                         signObjects.Add(Wood_sign);
                     }
                     else if (tileValuesArray[i, j].ToString().Contains("0"))
@@ -116,6 +112,47 @@ namespace Jokemon_Team_2
                 }
             }
         }
+        protected override void LoadContent()
+        {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            big_tree = Content.Load<Texture2D>("Big_tree");
+
+            building = Content.Load<Texture2D>("House_Wood");
+
+            Tile_sign = Content.Load<Texture2D>("Sign");
+
+            loadContent = Content.Load<Texture2D>("Player_M");
+            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
+
+
+            loadContent = Content.Load<Texture2D>("MessageBox");
+            loadFont = Content.Load<SpriteFont>("File");
+            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
+            
+            CreateMap();
+
+            tc1Rect = new Rectangle(0, 0, 80, 800);
+            tc2Rect = new Rectangle(720, 0, 80, 800);
+            tr1Rect = new Rectangle(0, 0, 320, 100);
+            tr2Rect = new Rectangle(480, 0, 320, 100);
+            tr3Rect = new Rectangle(0, 800, 80, 100);
+            h1Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, 150,150);
+            h2Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, building.Width, building.Height);
+            s1Rect = new Rectangle((int)Wood_sign.spritePosition.X, (int)Wood_sign.spritePosition.Y, Tile_sign.Width, Tile_sign.Height);
+
+            rectangleObjects.Add(tc1Rect);
+            rectangleObjects.Add(tc2Rect);
+            rectangleObjects.Add(tr1Rect);
+            rectangleObjects.Add(tr2Rect);
+            rectangleObjects.Add(tr3Rect);
+            rectangleObjects.Add(h1Rect);
+            rectangleObjects.Add(h2Rect);
+            rectangleObjects.Add(s1Rect);
+
+            
+        }
+        
 
         protected override void Update(GameTime gameTime)
         {
@@ -125,7 +162,7 @@ namespace Jokemon_Team_2
 
             mouse = Mouse.GetState();
 
-            Debug.WriteLine("X:{0} Y:{1}", mouse.X, mouse.Y);
+            //Debug.WriteLine("X:{0} Y:{1}", mouse.X, mouse.Y);
             
             //if (mouse.X == )
             //{
@@ -139,19 +176,10 @@ namespace Jokemon_Team_2
             // TODO: Add your update logic here
             iManager.CheckKeys(player,_graphics);
 
-            foreach (Tree t in treeObjects)
+            foreach(Rectangle r in rectangleObjects)
             {
-                pManager.CheckCollision(player, t);
+                pManager.checkCollision(player, r);
             }
-            foreach (Building b in buildingObjects)
-            {
-                pManager.CheckCollision(player, b);
-            }
-            foreach (ReadableObject r in signObjects)
-            {
-                pManager.CheckCollision(player, r);
-            }
-            pManager.CheckCollision(player, Wood_sign);
 
 
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
@@ -195,7 +223,7 @@ namespace Jokemon_Team_2
 
                 }
             }
-
+            
             player.DrawSprite(_spriteBatch, player.spriteTexture);
             
             //If the player is touching the bottom of the sign
