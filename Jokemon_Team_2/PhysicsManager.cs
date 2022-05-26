@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Jokemon_Team_2
 {
@@ -31,8 +32,6 @@ namespace Jokemon_Team_2
                 {
                     goUp(p);
                     p.hasCollidedBottom = false;
-                    p.hasCollidedRight = false;
-                    p.hasCollidedLeft = false;
                 }
             }
             else if (p.goingDown)
@@ -105,6 +104,7 @@ namespace Jokemon_Team_2
                     p.hasCollidedTop = true;
                     SignInitialize = true;
 
+
                 }
                 if (p.hasCollidedTop == false)
                 { 
@@ -164,6 +164,7 @@ namespace Jokemon_Team_2
                 if (p.hasCollidedRight == false)
                 {
                     goRight(p);
+
                     SignInitialize = false;
                     p.hasCollidedLeft = false;
                     p.hasCollidedTop = false;
