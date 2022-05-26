@@ -3,42 +3,52 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System;
 
 namespace Jokemon_Team_2
 {
     public class Game1 : Game
     {
+        // comment
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
         private Player player;
-        private ReadableObject sign;
         private MessageWindow MessageBox;
         private SpriteFont loadFont;
         private Texture2D loadContent;
-        private Building chest;
-        private Building Home1;
-        private Building Home2;
+        private Building house;
+        private Tree trees;
+        private ReadableObject Wood_sign;
 
-        private Tree[] treeRow1 = new Tree[10];
-        private Tree[] treeRow2 = new Tree[15];
-        private Tree[] treeRow3 = new Tree[7];
-        private Tree[] treeRow4 = new Tree[8];
-        private Tree[] treeRow5 = new Tree[10];
-
-        
         private List<Tree> treeObjects = new List<Tree>();
         private PhysicsManager pManager = new PhysicsManager();
         private InputManager iManager = new InputManager();
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
+        private List<Rectangle> rectangleObjects = new List<Rectangle>();
 
-        private bool isBlack;
-        private int timer;
-        Color background;
-        private int posX = 0;
-        private int posY = 0;
+
+        private Tile[,] tileArray = new Tile[10, 10];
+        private char[,] tileValuesArray;
+        private Texture2D big_tree, building, Tile_sign;
+        private const int TILE_SIZE = 80;
+
+
+        private Rectangle tc1Rect = new Rectangle();
+        private Rectangle tc2Rect = new Rectangle();
+        private Rectangle tr1Rect = new Rectangle();
+        private Rectangle tr2Rect = new Rectangle();
+        private Rectangle tr3Rect = new Rectangle();
+        private Rectangle h1Rect = new Rectangle();
+        private Rectangle h2Rect = new Rectangle();
+        private Rectangle s1Rect = new Rectangle();
+
+        MouseState mouse;
+        private bool mousePressed = false;
+        public static int screenWidth;
+        public static int screenHeight;
         private bool windowInPosition;
         public Game1()
         {
@@ -47,118 +57,130 @@ namespace Jokemon_Team_2
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 800;
+            _graphics.ApplyChanges();
+
+            screenHeight = _graphics.PreferredBackBufferHeight;
+            screenWidth = _graphics.PreferredBackBufferWidth;
+
+            MapReader.MapSize = 10;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            timer = 60 * 3;
+            tileArray = new Tile[MapReader.MapSize, MapReader.MapSize];
+            tileValuesArray = MapReader.ReadFile("../../../Content/Text_file/Tile_Map");
+            
             base.Initialize();
         }
-
+        public void CreateMap()
+        {
+            Vector2 temPosition;
+            Vector2 bSize = new Vector2(150, 150);
+            Vector2 tSize = new Vector2(80, 100);
+            Vector2 sSize = new Vector2(30, 30);
+            for (int i = 0; i <= tileArray.GetUpperBound(0); i++)
+            {
+                for (int j = 0; j <= tileArray.GetUpperBound(1); j++)
+                {
+                    if (tileValuesArray[i, j].ToString().Contains("1"))
+                    {
+                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
+                        tileArray[i, j] = new Tile(big_tree, temPosition, tSize);
+                        trees = new Tree(big_tree, temPosition, tSize, true);
+                        treeObjects.Add(trees);
+                    }
+                    if (tileValuesArray[i, j].ToString().Contains("2"))
+                    {
+                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
+                        tileArray[i, j] = new Tile(building, temPosition, bSize);
+                        house = new Building(building, temPosition, bSize, true);
+                        Debug.WriteLine("X: {0} Y:{1}", house.spritePosition.X, house.spritePosition.Y);
+                        buildingObjects.Add(house);
+                    }
+                    if (tileValuesArray[i, j].ToString().Contains("3"))
+                    {
+                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
+                        tileArray[i, j] = new Tile(Tile_sign, temPosition, sSize);
+                        Wood_sign = new ReadableObject(Tile_sign, temPosition, sSize, true);
+                        Debug.WriteLine("X: {0} Y: {1}", Wood_sign.spritePosition.X, Wood_sign.spritePosition.Y);
+                        signObjects.Add(Wood_sign);
+                    }
+                    else if (tileValuesArray[i, j].ToString().Contains("0"))
+                    {
+                        tileArray[i, j] = new Tile(new Texture2D(GraphicsDevice, 10, 10), new Vector2(0, 0), new Vector2(0, 0));
+                    }
+                }
+            }
+        }
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            loadContent = Content.Load<Texture2D>("Big_tree");
-            posX = 750;
-            posY = 0;
-            for (int i = 0; i < treeRow1.Length; i++)
-            {
-                posY = 0 + (i * 80);
-                treeRow1[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow1[i]);
-            }
+            big_tree = Content.Load<Texture2D>("Big_tree");
 
-            posX = 50;
-            posY = 740;
+            building = Content.Load<Texture2D>("House_Wood");
 
-            for (int i = 0; i < treeRow2.Length; i++)
-            {
-                posX = 50 + (i * 50);
-
-                treeRow2[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow2[i]);
-            }
-            posX = 0;
-            posY = 0;
-
-            for (int i = 0; i < treeRow3.Length; i++)
-            {
-                posX = 0 + (i * 50);
-
-                treeRow3[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow3[i]);
-            }
-            posX = 430;
-            posY = 0;
-
-            for (int i = 0; i < treeRow4.Length; i++)
-            {
-                posX = 430 + (i * 45);
-
-                treeRow4[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow4[i]);
-            }
-            posX = 0;
-            posY = 0;
-
-            for (int i = 0; i < treeRow5.Length; i++)
-            {
-                posY = 0 + (i * 80);
-
-                treeRow5[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow5[i]);
-            }
+            Tile_sign = Content.Load<Texture2D>("Sign");
 
             loadContent = Content.Load<Texture2D>("Player_M");
-            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
+            player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
 
-            loadContent = Content.Load<Texture2D>("Sign");
-            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30),true);
-            signObjects.Add(sign);
 
             loadContent = Content.Load<Texture2D>("MessageBox");
             loadFont = Content.Load<SpriteFont>("File");
             MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
-            //MessageWindow Types take 6 values:
-            //Box Texture, its Position, Its size
-            //Font File, The desired message, its position
+            
+            CreateMap();
 
-            loadContent = Content.Load<Texture2D>("woodenchest");
-            chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50),true);
-            buildingObjects.Add(chest);
+            tc1Rect = new Rectangle(0, 0, 80, 800);
+            tc2Rect = new Rectangle(720, 0, 80, 800);
+            tr1Rect = new Rectangle(0, 0, 320, 100);
+            tr2Rect = new Rectangle(480, 0, 320, 100);
+            tr3Rect = new Rectangle(0, 800, 80, 100);
+            h1Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, 150,150);
+            h2Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, building.Width, building.Height);
+            s1Rect = new Rectangle((int)Wood_sign.spritePosition.X, (int)Wood_sign.spritePosition.Y, Tile_sign.Width, Tile_sign.Height);
 
-            loadContent = Content.Load<Texture2D>("House_Wood");
-            Home1 = new Building(loadContent, new Vector2(150, 150),new Vector2(150, 150),true);
-            Home2 = new Building(loadContent, new Vector2(250, 200), new Vector2(250, 200), true);
-            buildingObjects.Add(Home1);
-            buildingObjects.Add(Home2);
+            rectangleObjects.Add(tc1Rect);
+            rectangleObjects.Add(tc2Rect);
+            rectangleObjects.Add(tr1Rect);
+            rectangleObjects.Add(tr2Rect);
+            rectangleObjects.Add(tr3Rect);
+            rectangleObjects.Add(h1Rect);
+            rectangleObjects.Add(h2Rect);
+            rectangleObjects.Add(s1Rect);
 
-
+            
         }
+        
 
         protected override void Update(GameTime gameTime)
         {
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            iManager.CheckKeys(player, _graphics);
+            mouse = Mouse.GetState();
 
-            foreach (Tree t in treeObjects)
+            //Debug.WriteLine("X:{0} Y:{1}", mouse.X, mouse.Y);
+            
+            //if (mouse.X == )
+            //{
+            //    if(mouse.LeftButton == ButtonState.Pressed)
+            //    {
+            //        Debug.WriteLine("Mouse Pressed");
+            //        mousePressed = true;
+            //    }
+            //}
+
+            // TODO: Add your update logic here
+            iManager.CheckKeys(player,_graphics);
+
+            foreach(Rectangle r in rectangleObjects)
             {
-                pManager.CheckCollision(player, t);
+                pManager.checkCollision(player, r);
             }
-            //foreach (Building b in buildingObjects)
-            //{
-            //    pManager.CheckCollision(player, b);
-            //}
-            //foreach (ReadableObject r in signObjects)
-            //{
-            //    pManager.CheckCollision(player, sign);
-            //}
-            pManager.CheckCollision(player, sign);
 
 
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
@@ -181,54 +203,30 @@ namespace Jokemon_Team_2
                 windowInPosition = false;
             }
 
-            ////////
-            if(player.spritePosition.Y <=5)
-            {
-                timer--;
-                background = Color.Black;
-                player.goingDown = false;
-                player.goingUp = false;
-                player.goingRight = false;
-                player.goingLeft = false;
-                if (background == Color.Black)
-                {
-                    isBlack = true;
-                }
-                else
-                {
-                    isBlack = false;
-                }
-            }
-            
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            bool draw = true;
             GraphicsDevice.Clear(Color.LightGreen);
-            foreach (Tree t in treeObjects)
+            foreach (Tile t in tileArray)
             {
-                if(t.IsDraw)
+                if(draw == true)
                 {
                     t.DrawSprite(_spriteBatch, t.spriteTexture);
                 }
-            }
-            foreach (Building b in buildingObjects)
-            {
-                if (b.IsDrawn)
+                
+                if(mousePressed == true)
                 {
-                    b.DrawSprite(_spriteBatch, b.spriteTexture);
-                }
-            }
-            player.DrawSprite(_spriteBatch, player.spriteTexture);
-            foreach(ReadableObject s in signObjects)
-            {
-                if(s.IsDrawn)
-                {
-                    s.DrawSprite(_spriteBatch, sign.spriteTexture);
-                }
-            }
+                    draw = false;
 
+                }
+            }
+            
+            player.DrawSprite(_spriteBatch, player.spriteTexture);
+            
             //If the player is touching the bottom of the sign
             if (player.hasCollidedTop == true)
             {
@@ -241,28 +239,27 @@ namespace Jokemon_Team_2
                     MessageBox.DrawMessage(_spriteBatch);
                 }
             }
+
             if (isBlack == true)
             {
                 GraphicsDevice.Clear(background);
-                foreach (Tree t in treeObjects)
+                foreach(Tree t in treeObjects)
                 {
                     t.IsDraw = false;
                 }
-                foreach (ReadableObject s in signObjects)
+                foreach(ReadableObject s in signObjects)
                 {
                     s.IsDrawn = false;
                 }
             }
             if (timer == 0)
             {
+                player.goingDown = true;
+                player.goingUp = true;
+                player.goingRight = true;
+                player.goingLeft = true;
                 loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true)
-                {
-                    goingDown = true,
-                    goingUp = true,
-                    goingRight = true,
-                    goingLeft = true
-                };
+                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
                 isBlack = false;
                 chest.DrawSprite(_spriteBatch, chest.spriteTexture);
                 
