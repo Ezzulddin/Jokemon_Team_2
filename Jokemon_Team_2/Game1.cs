@@ -35,6 +35,8 @@ namespace Jokemon_Team_2
         private Texture2D big_tree, building, Tile_sign;
         private const int TILE_SIZE = 80;
 
+        private CameraManager cManager;
+        private CameraManager nullCamera;
 
         private Rectangle tc1Rect = new Rectangle();
         private Rectangle tc2Rect = new Rectangle();
@@ -132,6 +134,8 @@ namespace Jokemon_Team_2
             MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150), loadFont, ("This is a sign!"), new Vector2(80, 670));
             
             CreateMap();
+            
+            cManager = new CameraManager();
 
             tc1Rect = new Rectangle(0, 0, 80, 800);
             tc2Rect = new Rectangle(720, 0, 80, 800);
@@ -151,7 +155,7 @@ namespace Jokemon_Team_2
             rectangleObjects.Add(h2Rect);
             rectangleObjects.Add(s1Rect);
 
-            
+            cManager = new CameraManager();
         }
         
 
@@ -182,7 +186,7 @@ namespace Jokemon_Team_2
                 pManager.checkCollision(player, r);
             }
 
-
+            cManager.Follow(player);
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
             if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
             {
@@ -215,7 +219,7 @@ namespace Jokemon_Team_2
             {
                 if(draw == true)
                 {
-                    t.DrawSprite(_spriteBatch, t.spriteTexture);
+                    t.DrawSprite(_spriteBatch, t.spriteTexture,cManager);
                 }
                 
                 if(mousePressed == true)
@@ -225,13 +229,13 @@ namespace Jokemon_Team_2
                 }
             }
             
-            player.DrawSprite(_spriteBatch, player.spriteTexture);
+            player.DrawSprite(_spriteBatch, player.spriteTexture,cManager);
             
             //If the player is touching the bottom of the sign
             if (player.hasCollidedTop == true)
             {
                 //Draw the message box
-                MessageBox.DrawSprite(_spriteBatch, MessageBox.spriteTexture);
+                MessageBox.DrawSprite(_spriteBatch, MessageBox.spriteTexture,cManager);
                 //If the message box is in the engaged position
                 if (windowInPosition == true)
                 {
