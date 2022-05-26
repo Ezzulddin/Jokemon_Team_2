@@ -22,11 +22,6 @@ namespace Jokemon_Team_2
         private Building Home1;
         private Building Home2;
 
-        private Tree[] treeRow1 = new Tree[10];
-        private Tree[] treeRow2 = new Tree[15];
-        private Tree[] treeRow3 = new Tree[7];
-        private Tree[] treeRow4 = new Tree[8];
-        private Tree[] treeRow5 = new Tree[10];
 
         private PhysicsManager pManager = new PhysicsManager();
 
@@ -48,14 +43,6 @@ namespace Jokemon_Team_2
 
 
 
-        Color background;
-
-        private bool isBlack;
-        private int timer;
-
-        private int posX = 0;
-        private int posY = 0;
-
         private bool windowInPosition;
         private bool Sign_Initialize; 
         public Game1()
@@ -73,19 +60,7 @@ namespace Jokemon_Team_2
         {
             // TODO: Add your initialization logic here
             Window.AllowUserResizing = false;
-            timer = 60 * 3;
-            if (timer == 1)
-            {
-                //player.goingDown = true;
-                //player.goingUp = true;
-                //player.goingRight = true;
-                //player.goingLeft = true;
-                //loadContent = Content.Load<Texture2D>("Player_M");
-                //player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
-                isBlack = false;
-                player.spritePosition = new Vector2(350, 350);
-
-            }
+            
             base.Initialize();
         }
 
@@ -94,55 +69,7 @@ namespace Jokemon_Team_2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             loadContent = Content.Load<Texture2D>("Big_tree");
-            posX = 750;
-            posY = 0;
-            for (int i = 0; i < treeRow1.Length; i++)
-            {
-                posY = 0 + (i * 80);
-                treeRow1[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow1[i]);
-            }
-
-            posX = 50;
-            posY = 740;
-
-            for (int i = 0; i < treeRow2.Length; i++)
-            {
-                posX = 50 + (i * 50);
-
-                treeRow2[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow2[i]);
-            }
-            posX = 0;
-            posY = 0;
-
-            for (int i = 0; i < treeRow3.Length; i++)
-            {
-                posX = 0 + (i * 50);
-
-                treeRow3[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow3[i]);
-            }
-            posX = 430;
-            posY = 0;
-
-            for (int i = 0; i < treeRow4.Length; i++)
-            {
-                posX = 430 + (i * 45);
-
-                treeRow4[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow4[i]);
-            }
-            posX = 0;
-            posY = 0;
-
-            for (int i = 0; i < treeRow5.Length; i++)
-            {
-                posY = 0 + (i * 80);
-
-                treeRow5[i] = new Tree(loadContent, new Vector2(posX, posY), new Vector2(60, 100),true);
-                treeObjects.Add(treeRow5[i]);
-            }
+            
 
             loadContent = Content.Load<Texture2D>("Player_M");
             player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
@@ -188,188 +115,128 @@ namespace Jokemon_Team_2
             iManager.CheckKeys(player, _graphics);
 
             cManager.Follow(player);
+            foreach (Tree t in treeObjects)
+            {
+                pManager.CheckCollision(player, t);
+            }
+            //SIGN STUFF
+            float distX;
+            float distY;
+            float dist0;
+            float dist1;
+            distX = (int)(player.spritePosition.X - sign.spritePosition.X);
+            distY = (int)(player.spritePosition.Y - sign.spritePosition.Y);
+            dist0 = distX + distY;
+            //compare player distance to sign 1
 
-            if (isBlack == false)
+            distX = (int)(player.spritePosition.X - sign2.spritePosition.X);
+            distY = (int)(player.spritePosition.Y - sign2.spritePosition.Y);
+            dist1 = distX + distY;
+            //compare player distance to sign2
+            if (dist0 < 50 && dist0 > -50)
             {
 
-                foreach (Tree t in treeObjects)
+                sign.message = MessageList[0];
+
+                sign2.message = MessageList[0];
+            }
+            //modify message accordingly
+            if (dist1 < 50 && dist1 > -50)
+            {
+
+                sign2.message = MessageList[1];
+                sign.message = MessageList[1];
+            }
+            //Debug.WriteLine(dist2);
+            //Debug.WriteLine(dist1);
+
+            foreach (ReadableObject s in signObjects)
+            {
+                Sign_Initialize = pManager.CheckSignCollision(player, s);
+                //STAND UNDER SIGN TO ACTIVATE
+
+                if (Sign_Initialize == true && MessageBox.spritePosition.Y >= 645)
                 {
-                    pManager.CheckCollision(player, t);
-                }
-
-                //SIGN STUFF
-                float distX;
-                float distY;
-                float dist0;
-                float dist1;
-                distX = (int)(player.spritePosition.X - sign.spritePosition.X);
-                distY = (int)(player.spritePosition.Y - sign.spritePosition.Y);
-                dist0 = distX + distY;
-                //compare player distance to sign 1
-
-                distX = (int)(player.spritePosition.X - sign2.spritePosition.X);
-                distY = (int)(player.spritePosition.Y - sign2.spritePosition.Y);
-                dist1 = distX + distY;
-                //compare player distance to sign2
-                if (dist0 < 50 && dist0 > -50)
-                {
-
-                    sign.message = MessageList[0];
-
-                    sign2.message = MessageList[0];
-                }
-                //modify message accordingly
-                if (dist1 < 50 && dist1 > -50)
-                {
-
-                    sign2.message = MessageList[1];
-                    sign.message = MessageList[1];
-                }
-                //Debug.WriteLine(dist2);
-                //Debug.WriteLine(dist1);
-
-                foreach (ReadableObject s in signObjects)
-                {
-                    Sign_Initialize = pManager.CheckSignCollision(player, s);
-                    //STAND UNDER SIGN TO ACTIVATE
-
-                    if (Sign_Initialize == true && MessageBox.spritePosition.Y >= 645)
+                    //identify sign
+                    //Move box up animation
+                    MessageBox.spritePosition = new Vector2(MessageBox.spriteSize.X / 2 - 350, MessageBox.spritePosition.Y - 20);
+                    //check if box in right place
+                    if (MessageBox.spritePosition.Y <= 650)
                     {
-                        //identify sign
-                        //Move box up animation
-                        MessageBox.spritePosition = new Vector2(MessageBox.spriteSize.X / 2 - 350, MessageBox.spritePosition.Y - 20);
-                        //check if box in right place
-                        if (MessageBox.spritePosition.Y <= 650)
-                        {
-                            windowInPosition = true;
-                        }
+                        windowInPosition = true;
                     }
+                }
 
-                    //if player no longer standing under sign and the box is still on screen
-                    if (Sign_Initialize == false && MessageBox.spritePosition.Y < 801)
-                    {
-                        //move box down so box is not in the engaged position 
-                        MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
-                        //box no longer in engaged position
-                        windowInPosition = false;
-                    }
-
+                //if player no longer standing under sign and the box is still on screen
+                if (Sign_Initialize == false && MessageBox.spritePosition.Y < 801)
+                {
+                    //move box down so box is not in the engaged position 
+                    MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
+                    //box no longer in engaged position
+                    windowInPosition = false;
                 }
 
             }
 
           
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.L))
-            {
-                timer--;
-                background = Color.Black;
-                if (background == Color.Black)
-                {
-                    isBlack = true;
-                }
-                else
-                {
-                    isBlack = false;
-                }
-            }
-
-            if (timer == 1)
-            {
-                //player.goingDown = true;
-                //player.goingUp = true;
-                //player.goingRight = true;
-                //player.goingLeft = true;
-                //loadContent = Content.Load<Texture2D>("Player_M");
-                //player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
-                isBlack = false;
-
-            }
+            
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGreen);
-            if (isBlack == false)
+            foreach (Tree t in treeObjects)
             {
-                foreach (Tree t in treeObjects)
+                if (t.IsDraw)
                 {
-                    if (t.IsDraw)
+                    t.DrawSprite(_spriteBatch, t.spriteTexture, cManager);
+                }
+            }
+
+            player.DrawSprite(_spriteBatch, player.spriteTexture, cManager);
+
+
+            foreach (ReadableObject s in signObjects)
+            {
+                {
+                    Debug.Write(s);
+                    if (s.IsDrawn)
                     {
-                        t.DrawSprite(_spriteBatch, t.spriteTexture, cManager);
+                        s.DrawSprite(_spriteBatch, sign.spriteTexture, cManager);
+                    }
+                    if (Sign_Initialize == true)
+                    {
+                        //Draw the message box
+                        MessageBox.DrawMessageWindow(_spriteBatch, MessageBox.spriteTexture);
+
+                    }
+
+                    //If the message box is in the engaged position
+                    if (windowInPosition == true)
+                    {
+                        //Draw the text
+                        s.DrawMessage(_spriteBatch);
+
                     }
                 }
-
-                player.DrawSprite(_spriteBatch, player.spriteTexture, cManager);
-
-    
-                foreach(ReadableObject s in signObjects)
-                {
-                    {
-                        Debug.Write(s);
-                        if (s.IsDrawn)
-                        {
-                            s.DrawSprite(_spriteBatch, sign.spriteTexture, cManager);
-                        }
-                        if (Sign_Initialize == true) 
-                        {
-                            //Draw the message box
-                            MessageBox.DrawMessageWindow(_spriteBatch, MessageBox.spriteTexture);
-
-                        }
-                        
-                        //If the message box is in the engaged position
-                        if (windowInPosition == true)
-                        {
-                            //Draw the text
-                            s.DrawMessage(_spriteBatch);
-
-                        }
-                    }
-                }
-         
-
-                chest.DrawSprite(_spriteBatch, chest.spriteTexture,cManager);
-                Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
-                Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
-
             }
 
-            if (isBlack == true)
+
+            chest.DrawSprite(_spriteBatch, chest.spriteTexture, cManager);
+            Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
+            Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
+
+            foreach (Tree t in treeObjects)
             {
-                GraphicsDevice.Clear(background);
-                foreach(Tree t in treeObjects)
-                {
-                    t.IsDraw = false;
-                }
-                foreach(ReadableObject s in signObjects)
-                {
-                    s.IsDrawn = false;
-                }
+                t.IsDraw = false;
             }
-            if (timer == 0)
+            foreach (ReadableObject s in signObjects)
             {
-                player.goingDown = true;
-                player.goingUp = true;
-                player.goingRight = true;
-                player.goingLeft = true;
-                loadContent = Content.Load<Texture2D>("Player_M");
-                player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50),true);
-                isBlack = false;
-                
+                s.IsDrawn = false;
             }
-                //    foreach (Tree t in treeObjects)
-                //    {
-                //        t.IsDraw = false;
-                //    }
-                //    foreach (ReadableObject s in signObjects)
-                //    {
-                //        s.IsDrawn = false;
-                //    }
-                //}
-
-
+            
 
             base.Draw(gameTime);
         }
