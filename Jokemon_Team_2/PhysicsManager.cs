@@ -13,7 +13,26 @@ namespace Jokemon_Team_2
         private float speed = 0.1f;
         private int collisionOffset = 3;
         private bool SignInitialize = false;
+        public bool CheckInBounds(int PosX1,int PosY1,int PosX2,int PosY2,int distBounds) 
+        {
+            bool inBounds;
+            int distX;
+            int distY;
 
+            distX = Math.Abs(PosX1 - PosX2);
+            distY = Math.Abs(PosY1 - PosY2);
+            if (distX < distBounds && distY < distBounds)
+            {
+                inBounds = true;
+            }
+            else 
+            {
+                inBounds = false;   
+            
+            }
+
+            return inBounds;
+        }
         public void CheckCollision(Player p, Tree t)
         {
             Rectangle treeRect = new Rectangle((int)t.spritePosition.X, (int)t.spritePosition.Y, (int)t.spriteSize.X, (int)t.spriteSize.Y);

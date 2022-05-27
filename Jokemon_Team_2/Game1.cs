@@ -54,7 +54,9 @@ namespace Jokemon_Team_2
         private int posY = 0;
 
         private bool windowInPosition;
-        private bool Sign_Initialize; 
+        private bool Sign_Initialize;
+        private bool inBounds;
+        private bool inBounds1;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -198,36 +200,24 @@ namespace Jokemon_Team_2
                 //}
 
                 //SIGN STUFF
-                float distX;
-                float distY;
-                float dist0;
-                float dist1;
-                distX = (int)(player.spritePosition.X - sign.spritePosition.X);
-                distY = (int)(player.spritePosition.Y - sign.spritePosition.Y);
-                dist0 = distX + distY;
-                //compare player distance to sign 1
-
-                distX = (int)(player.spritePosition.X - sign2.spritePosition.X);
-                distY = (int)(player.spritePosition.Y - sign2.spritePosition.Y);
-                dist1 = distX + distY;
-                //compare player distance to sign2
-                if (dist0 < 50 && dist0 > -50)
+                inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
+                if (inBounds == true)
                 {
-
-                    sign.message = MessageList[0];
-
-                    sign2.message = MessageList[0];
+                    foreach (ReadableObject s in signObjects)
+                    {
+                        s.message = MessageList[0];
+                    }
                 }
-                //modify message accordingly
-                if (dist1 < 50 && dist1 > -50)
+                inBounds1 = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign2.spritePosition.X, (int)sign2.spritePosition.Y, 40);
+                if (inBounds1 == true)
                 {
-
-                    sign2.message = MessageList[1];
-                    sign.message = MessageList[1];
+                    foreach (ReadableObject s in signObjects)
+                    {
+                        s.message = MessageList[1];
+                    }
                 }
-                //Debug.WriteLine(dist2);
-                //Debug.WriteLine(dist1);
-
+                Debug.WriteLine("bounds{0}", inBounds);
+                //Debug.WriteLine("bounds1{0}", inBounds1);
                 foreach (ReadableObject s in signObjects)
                 {
                     Sign_Initialize = pManager.CheckSignCollision(player, s);
@@ -307,7 +297,6 @@ namespace Jokemon_Team_2
                 foreach(ReadableObject s in signObjects)
                 {
                     {
-                        Debug.Write(s);
                         if (s.IsDrawn)
                         {
                             s.DrawSprite(_spriteBatch, sign.spriteTexture, cManager);
