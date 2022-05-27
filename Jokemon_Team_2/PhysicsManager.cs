@@ -27,7 +27,8 @@ namespace Jokemon_Team_2
                 {
                     goUp(p);
                     p.hasCollidedBottom = false; //if we've gone up, can't be colliding with bottom
-
+                    p.hasCollidedLeft = false;
+                    p.hasCollidedRight = false;
                 }
             }
             else if (p.goingDown)
@@ -46,6 +47,8 @@ namespace Jokemon_Team_2
                 {
                     goDown(p);
                     p.hasCollidedTop = false;
+                    p.hasCollidedLeft = false;
+                    p.hasCollidedRight = false;
                 }
 
 
@@ -66,6 +69,8 @@ namespace Jokemon_Team_2
                 {
                     goLeft(p);
                     p.hasCollidedRight = false;
+                    p.hasCollidedBottom = false;
+                    p.hasCollidedTop = false;
                 }
 
             }
@@ -85,6 +90,8 @@ namespace Jokemon_Team_2
                 {
                     goRight(p);
                     p.hasCollidedLeft = false;
+                    p.hasCollidedTop = false;
+                    p.hasCollidedBottom = false;
                 }
             }
         }

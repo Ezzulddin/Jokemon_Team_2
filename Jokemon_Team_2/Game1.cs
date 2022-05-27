@@ -90,6 +90,7 @@ namespace Jokemon_Team_2
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
                         tileArray[i, j] = new Tile(big_tree, temPosition, tSize);
                         trees = new Tree(big_tree, temPosition, tSize, true);
+                        
                         treeObjects.Add(trees);
                     }
                     if (tileValuesArray[i, j].ToString().Contains("2"))
@@ -98,6 +99,7 @@ namespace Jokemon_Team_2
                         tileArray[i, j] = new Tile(building, temPosition, bSize);
                         house = new Building(building, temPosition, bSize, true);
                         Debug.WriteLine("X: {0} Y:{1}", house.spritePosition.X, house.spritePosition.Y);
+                        
                         buildingObjects.Add(house);
                     }
                     if (tileValuesArray[i, j].ToString().Contains("3"))
@@ -106,6 +108,7 @@ namespace Jokemon_Team_2
                         tileArray[i, j] = new Tile(Tile_sign, temPosition, sSize);
                         Wood_sign = new ReadableObject(Tile_sign, temPosition, sSize, true);
                         Debug.WriteLine("X: {0} Y: {1}", Wood_sign.spritePosition.X, Wood_sign.spritePosition.Y);
+                        
                         signObjects.Add(Wood_sign);
                     }
                     else if (tileValuesArray[i, j].ToString().Contains("0"))
@@ -137,23 +140,15 @@ namespace Jokemon_Team_2
             
             cManager = new CameraManager();
 
-            tc1Rect = new Rectangle(0, 0, 80, 800);
-            tc2Rect = new Rectangle(720, 0, 80, 800);
-            tr1Rect = new Rectangle(0, 0, 320, 100);
-            tr2Rect = new Rectangle(480, 0, 320, 100);
-            tr3Rect = new Rectangle(0, 800, 80, 100);
-            h1Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, building.Width,building.Height);
-            h2Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, building.Width, building.Height);
-            s1Rect = new Rectangle((int)Wood_sign.spritePosition.X, (int)Wood_sign.spritePosition.Y, Tile_sign.Width, Tile_sign.Height);
-
+            tc1Rect = new Rectangle((int)trees.spritePosition.X, (int)trees.spritePosition.Y, (int)trees.spriteSize.X, (int)trees.spriteSize.Y);
             rectangleObjects.Add(tc1Rect);
-            rectangleObjects.Add(tc2Rect);
-            rectangleObjects.Add(tr1Rect);
-            rectangleObjects.Add(tr2Rect);
-            rectangleObjects.Add(tr3Rect);
-            rectangleObjects.Add(h1Rect);
+            h2Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, (int)house.spriteSize.X, (int)house.spriteSize.Y);
             rectangleObjects.Add(h2Rect);
+            s1Rect = new Rectangle((int)Wood_sign.spritePosition.X, (int)Wood_sign.spritePosition.Y, (int)house.spriteSize.X, (int)house.spriteSize.Y);
             rectangleObjects.Add(s1Rect);
+            //rectangleObjects.Add(h1Rect);
+
+
 
             cManager = new CameraManager();
         }
