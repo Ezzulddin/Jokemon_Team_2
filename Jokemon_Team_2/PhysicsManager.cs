@@ -10,7 +10,7 @@ namespace Jokemon_Team_2
 {
     class PhysicsManager
     {
-        private float speed = 0.1f;
+        private float speed = 2f;
         private int collisionOffset = 3;
         private bool SignInitialize = false;
         public bool CheckInBounds(int PosX1,int PosY1,int PosX2,int PosY2,int distBounds) 

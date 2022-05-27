@@ -9,18 +9,23 @@ namespace Jokemon_Team_2
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
+        
         private SpriteBatch _spriteBatch;
 
         private Player player;
+        
         private ReadableObject sign;
         private ReadableObject sign2;
+        
         private MessageWindow MessageBox;
+        
         private SpriteFont loadFont;
+
         private Texture2D loadContent;
+
         private Building chest;
         private Building Home1;
         private Building Home2;
-
 
         private PhysicsManager pManager = new PhysicsManager();
 
@@ -28,7 +33,6 @@ namespace Jokemon_Team_2
 
         private List<Tree> treeObjects = new List<Tree>();
         private List<Building> buildingObjects = new List<Building>();
-        private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
         private List<string> MessageList = new List<string>();
 
@@ -37,8 +41,6 @@ namespace Jokemon_Team_2
 
         private CameraManager cManager;
         private CameraManager nullCam;
-
-
 
         private bool windowInPosition;
         private bool Sign_Initialize;
@@ -123,13 +125,15 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("Sign");
             loadFont = Content.Load<SpriteFont>("File");
-            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30), loadFont, ("default"), new Vector2(80, 670),true);
-            signObjects.Add(sign);
-            sign2 = new ReadableObject(loadContent, new Vector2(200, 300), new Vector2(30, 30), loadFont, ("Default"), new Vector2(80, 670),true);
-            signObjects.Add(sign2);
 
+            sign = new ReadableObject(loadContent, new Vector2(500, 500), new Vector2(30, 30), loadFont, ("default"), new Vector2(80, 670),true);
+            sign2 = new ReadableObject(loadContent, new Vector2(200, 300), new Vector2(30, 30), loadFont, ("Default"), new Vector2(80, 670),true);
+            
             loadContent = Content.Load<Texture2D>("MessageBox");
             MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750/2, 800), new Vector2(750, 150));
+            
+            signObjects.Add(sign);
+            signObjects.Add(sign2);
             MessageList.Add("Rest in Peace Ez 2004-2000");
             MessageList.Add("I am sorry this took so long." + System.Environment.NewLine + "");
             MessageList.Add("I am so sorry this took so long");
@@ -137,8 +141,8 @@ namespace Jokemon_Team_2
             //Box Texture, its Position, Its size
             //Font File, The desired message, its position
 
-            cManager = new CameraManager();
-            nullCam = new CameraManager();
+            cManager = new CameraManager();//for all objects in game world(trees, bushes, homes)
+            nullCam = new CameraManager();//for all static objects(menus/popups)
 
             loadContent = Content.Load<Texture2D>("woodenchest");
             chest = new Building(loadContent, new Vector2(300, 380), new Vector2(40, 50),true);
@@ -162,13 +166,13 @@ namespace Jokemon_Team_2
             iManager.CheckKeys(player, _graphics);
             cManager.Follow(player);
 
-            if (isBlack == false)
-            {
+            //if (isBlack == false)
+            //{
 
-                foreach (Tree t in treeObjects)
-                {
-                    pManager.CheckCollision(player, t);
-                }
+            //    foreach (Tree t in treeObjects)
+            //    {
+            //        pManager.CheckCollision(player, t);
+            //    }
                 //foreach (Building b in buildingObjects)
                 //{
                 //    pManager.CheckCollision(player, b);
@@ -241,28 +245,25 @@ namespace Jokemon_Team_2
             player.DrawSprite(_spriteBatch, player.spriteTexture, cManager);
 
     
-                foreach(ReadableObject s in signObjects)
+            foreach(ReadableObject s in signObjects)
+            {
+                if (s.IsDrawn)
                 {
-                    {
-                        if (s.IsDrawn)
-                        {
-                            s.DrawSprite(_spriteBatch, sign.spriteTexture, cManager);
-                        }
-                        if (Sign_Initialize == true) 
-                        {
-                            //Draw the message box
-                            MessageBox.DrawMessageWindow(_spriteBatch, MessageBox.spriteTexture);
-
-                    }
-
-                    //If the message box is in the engaged position
-                    if (windowInPosition == true)
-                    {
-                        //Draw the text
-                        s.DrawMessage(_spriteBatch);
-
-                    }
+                    s.DrawSprite(_spriteBatch, sign.spriteTexture, cManager);
                 }
+                if (Sign_Initialize == true)
+                {
+                    //Draw the message box
+                    MessageBox.DrawMessageWindow(_spriteBatch, MessageBox.spriteTexture);
+                }
+                //If the message box is in the engaged position
+                if (windowInPosition == true)
+                {
+                    //Draw the text
+                    s.DrawMessage(_spriteBatch);
+
+                }
+                
             }
 
 
@@ -270,15 +271,15 @@ namespace Jokemon_Team_2
             Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
             Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
 
-            foreach (Tree t in treeObjects)
-            {
-                t.IsDraw = false;
-            }
-            foreach (ReadableObject s in signObjects)
-            {
-                s.IsDrawn = false;
-            }
-            
+            //foreach (Tree t in treeObjects)
+            //{
+            //    t.IsDraw = false;
+            //}
+            //foreach (ReadableObject s in signObjects)
+            //{
+            //    s.IsDrawn = false;
+            //}
+
 
             base.Draw(gameTime);
         }
