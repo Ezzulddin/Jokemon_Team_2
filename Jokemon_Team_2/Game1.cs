@@ -106,6 +106,7 @@ namespace Jokemon_Team_2
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+           
 
             // TODO: Add your update logic here
             iManager.CheckKeys(player);
@@ -122,6 +123,7 @@ namespace Jokemon_Team_2
             //{
             //    pManager.CheckCollision(player, r);
             //}
+            AttackManager.CheckDamage();
 
             base.Update(gameTime);
         }
