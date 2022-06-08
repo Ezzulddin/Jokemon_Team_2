@@ -16,6 +16,7 @@ namespace Jokemon_Team_2
         
         private static int Power, Acc, Damage, PP;
         private static string moveName;
+        //Test Change
 
         #region Normal Type
         private static string growl;

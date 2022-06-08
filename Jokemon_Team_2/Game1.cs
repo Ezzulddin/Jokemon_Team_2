@@ -25,6 +25,8 @@ namespace Jokemon_Team_2
         private List<Building> buildingObjects = new List<Building>();
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
+
+        private int pokeHealth, pokeDamage;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -123,7 +125,7 @@ namespace Jokemon_Team_2
             //{
             //    pManager.CheckCollision(player, r);
             //}
-            AttackManager.CheckDamage();
+            AttackManager.CheckDamage(pokeHealth, pokeDamage);
 
             base.Update(gameTime);
         }
