@@ -4,14 +4,35 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Jokemon_Team_2
 {
     class PhysicsManager
     {
-        private float speed = 0.1f;
+        private float speed = 2f;
         private int collisionOffset = 3;
+        private bool SignInitialize = false;
+        public bool CheckInBounds(int PosX1,int PosY1,int PosX2,int PosY2,int distBounds) 
+        {
+            bool inBounds;
+            int distX;
+            int distY;
 
+            distX = Math.Abs(PosX1 - PosX2);
+            distY = Math.Abs(PosY1 - PosY2);
+            if (distX < distBounds && distY < distBounds)
+            {
+                inBounds = true;
+            }
+            else 
+            {
+                inBounds = false;   
+            
+            }
+
+            return inBounds;
+        }
         public void CheckCollision(Player p, Tree t)
         {
             Rectangle treeRect = new Rectangle((int)t.spritePosition.X, (int)t.spritePosition.Y, (int)t.spriteSize.X, (int)t.spriteSize.Y);
@@ -25,13 +46,12 @@ namespace Jokemon_Team_2
                 if (projectedPlayerRect.Intersects(treeRect))
                 {
                     p.hasCollidedTop = true;
+                    p.spritePosition = new Vector2(p.spritePosition.X, p.spritePosition.Y + 1);
                 }
                 if (p.hasCollidedTop == false)
                 {
                     goUp(p);
                     p.hasCollidedBottom = false;
-                    p.hasCollidedRight = false;
-                    p.hasCollidedLeft = false;
                 }
             }
             else if (p.goingDown)
@@ -42,6 +62,7 @@ namespace Jokemon_Team_2
                 if (projectedPlayerRect.Intersects(treeRect))
                 {
                     p.hasCollidedBottom = true;
+                    p.spritePosition = new Vector2(p.spritePosition.X, p.spritePosition.Y - 1);
                 }
                 if (p.hasCollidedBottom == false)
                 {
@@ -61,6 +82,7 @@ namespace Jokemon_Team_2
                     p.hasCollidedLeft = true;
                     p.goingUp = false;
                     p.goingDown = false;
+                    p.spritePosition = new Vector2(p.spritePosition.X + 1, p.spritePosition.Y);
                 }
                 if (p.hasCollidedLeft == false)
                 {
@@ -78,6 +100,7 @@ namespace Jokemon_Team_2
                 if (projectedPlayerRect.Intersects(treeRect))
                 {
                     p.hasCollidedRight = true;
+                    p.spritePosition = new Vector2(p.spritePosition.X - 1, p.spritePosition.Y);
                 }
                 if (p.hasCollidedRight == false)
                 {
@@ -89,7 +112,7 @@ namespace Jokemon_Team_2
             }
 
         }
-        public void CheckCollision(Player p, ReadableObject r)
+        public bool CheckSignCollision(Player p, ReadableObject r)
         {
             Rectangle readableObjectRect = new Rectangle((int)r.spritePosition.X, (int)r.spritePosition.Y, (int)r.spriteSize.X, (int)r.spriteSize.Y);
 
@@ -102,9 +125,13 @@ namespace Jokemon_Team_2
                 if (projectedPlayerRect.Intersects(readableObjectRect))
                 {
                     p.hasCollidedTop = true;
+                    SignInitialize = true;
+
+
                 }
                 if (p.hasCollidedTop == false)
-                {
+                { 
+                    SignInitialize = false;
                     goUp(p);
                     p.hasCollidedBottom = false;
                     p.hasCollidedRight = false;
@@ -122,6 +149,8 @@ namespace Jokemon_Team_2
                 }
                 if (p.hasCollidedBottom == false)
                 {
+
+                    SignInitialize = false;
                     goDown(p);
                     p.hasCollidedTop = false;
                     p.hasCollidedRight = false;
@@ -140,6 +169,7 @@ namespace Jokemon_Team_2
                 if (p.hasCollidedLeft == false)
                 {
                     goLeft(p);
+                    SignInitialize = false;
                     p.hasCollidedRight = false;
                     p.hasCollidedTop = false;
                     p.hasCollidedBottom = false;
@@ -157,11 +187,14 @@ namespace Jokemon_Team_2
                 if (p.hasCollidedRight == false)
                 {
                     goRight(p);
+
+                    SignInitialize = false;
                     p.hasCollidedLeft = false;
                     p.hasCollidedTop = false;
                     p.hasCollidedBottom = false;
                 }
             }
+            return SignInitialize;
 
         }
         public void CheckCollision(Player p, Building b)
