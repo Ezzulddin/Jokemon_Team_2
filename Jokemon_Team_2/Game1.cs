@@ -125,7 +125,7 @@ namespace Jokemon_Team_2
             //{
             //    pManager.CheckCollision(player, r);
             //}
-            AttackManager.CheckDamage(pokeHealth, pokeDamage);
+            //AttackManager.CheckDamage(pokeHealth, pokeDamage);
 
             base.Update(gameTime);
         }

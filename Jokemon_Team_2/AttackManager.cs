@@ -40,7 +40,7 @@ namespace Jokemon_Team_2
         public static void CheckDamage(int inAtt, int inDamage)
         {
             Moves.MoveUsed(inAtt, inDamage);
-            Debug.WriteLine("IT WORKS HAHAHAHAHAHHA");
+            
 
         }
         
