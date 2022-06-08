@@ -101,7 +101,7 @@ namespace Jokemon_Team_2
                         Debug.WriteLine("X: {0} Y:{1}", house.spritePosition.X, house.spritePosition.Y);
                         
                         buildingObjects.Add(house);
-                    }
+                    }//
                     if (tileValuesArray[i, j].ToString().Contains("3"))
                     {
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
