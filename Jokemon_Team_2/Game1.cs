@@ -13,7 +13,9 @@ namespace Jokemon_Team_2
         private SpriteBatch _spriteBatch;
 
         private Player player;
-        
+
+        private Texture2D spriteSheet;
+
         private ReadableObject sign;
         private ReadableObject sign2;
         
@@ -68,6 +70,8 @@ namespace Jokemon_Team_2
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            spriteSheet = Content.Load<Texture2D>("character-spritesheet");
 
             loadContent = Content.Load<Texture2D>("Big_tree");
             //posX = 750;
@@ -174,13 +178,13 @@ namespace Jokemon_Team_2
             //    {
             //        pManager.CheckCollision(player, t);
             //    }
-                //foreach (Building b in buildingObjects)
-                //{
-                //    pManager.CheckCollision(player, b);
-                //}
+           // foreach (Building b in buildingObjects)
+            //{
+            //    pManager.CheckCollision(player, b);
+            //}
 
-                //SIGN STUFF
-                inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
+            //SIGN STUFF
+            inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
                 if (inBounds == true)
                 {
                     foreach (ReadableObject s in signObjects)
@@ -267,7 +271,7 @@ namespace Jokemon_Team_2
                 
             }
 
-
+            
             chest.DrawSprite(_spriteBatch, chest.spriteTexture, cManager);
             Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
             Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
