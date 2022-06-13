@@ -199,7 +199,7 @@ namespace Jokemon_Team_2
                         s.message = MessageList[1];
                     }
                 }
-                Debug.WriteLine("bounds{0}", inBounds);
+                //Debug.WriteLine("bounds{0}", inBounds);
                 //Debug.WriteLine("bounds1{0}", inBounds1);
                 foreach (ReadableObject s in signObjects)
                 {
