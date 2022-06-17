@@ -25,7 +25,7 @@ namespace Jokemon_Team_2
 
 
 
-
+            //
             Transform = Position * offset;
         }
     }
