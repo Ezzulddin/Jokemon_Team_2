@@ -14,10 +14,12 @@ namespace Jokemon_Team_2
         private int collisionOffset = 3;
         private bool SignInitialize = false;
         public bool CheckInBounds(int PosX1, int PosY1, int PosX2, int PosY2, int distBounds)
+
         {
             bool inBounds;
             int distX;
             int distY;
+
 
             distX = Math.Abs(PosX1 - PosX2);
             distY = Math.Abs(PosY1 - PosY2);
@@ -108,6 +110,7 @@ namespace Jokemon_Team_2
                     p.hasCollidedLeft = false;
                 }
             }
+
         }
         public void CheckCollision(Player p, Tree t)
         {
@@ -187,7 +190,9 @@ namespace Jokemon_Team_2
                 }
             }
 
+
         } // Dont think this is needed
+
         public bool CheckSignCollision(Player p, ReadableObject r)
         {
             Rectangle readableObjectRect = new Rectangle((int)r.spritePosition.X, (int)r.spritePosition.Y, (int)r.spriteSize.X, (int)r.spriteSize.Y);
@@ -206,7 +211,9 @@ namespace Jokemon_Team_2
 
                 }
                 if (p.hasCollidedTop == false)
+
                 {
+
                     SignInitialize = false;
                     goUp(p);
                     p.hasCollidedBottom = false;

@@ -13,6 +13,7 @@ namespace Jokemon_Team_2
         public void Follow(Player Target)
         {
 
+
             Matrix Position = Matrix.CreateTranslation
                  (-Target.spritePosition.X - (Target.spriteSize.X / 2),
                  -Target.spritePosition.Y - (Target.spriteSize.Y / 2)
@@ -25,7 +26,7 @@ namespace Jokemon_Team_2
 
 
 
+
             Transform = Position * offset;
         }
     }
-}

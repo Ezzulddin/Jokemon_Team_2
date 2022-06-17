@@ -26,7 +26,9 @@ namespace Jokemon_Team_2
 
         }
 
+
         public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture, CameraManager camera)
+
         {
             spriteTexture = texture;
             spriteBatch.Begin(transformMatrix: camera.Transform);
