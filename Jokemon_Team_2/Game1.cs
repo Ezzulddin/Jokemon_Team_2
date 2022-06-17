@@ -41,7 +41,7 @@ namespace Jokemon_Team_2
 
         private InputManager iManager = new InputManager();
 
-        private List<Tree> treeObjects = new List<Tree>();
+        //private List<Tree> treeObjects = new List<Tree>();
         private List<Building> buildingObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
 
@@ -180,7 +180,7 @@ namespace Jokemon_Team_2
 
             loadContent = Content.Load<Texture2D>("MessageBox");
 
-            MessageBox = new MessageWindow(Tile_sign, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150));
+            MessageBox = new MessageWindow(loadContent, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150));
 
             signObjects.Add(sign);
             signObjects.Add(sign2);
@@ -221,14 +221,15 @@ namespace Jokemon_Team_2
 
             cManager = new CameraManager();
         }
-        
+
 
         protected override void Update(GameTime gameTime)
         {
-            Debug.WriteLine("X:{0} Y:{1} ",player.spritePosition.X,player.spritePosition.Y);
+
+            Debug.WriteLine("X:{0} Y:{1} ", player.spritePosition.X, player.spritePosition.Y);
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-           
+
 
             mouse = Mouse.GetState();
             iManager.CheckKeys(player, _graphics);
@@ -246,7 +247,7 @@ namespace Jokemon_Team_2
             //}
 
             // TODO: Add your update logic here
-            iManager.CheckKeys(player,_graphics);
+            iManager.CheckKeys(player, _graphics);
             #region Checking Collisions with objects in rectangle objects
             foreach (Rectangle r in rectangleObjects)
             {
@@ -254,43 +255,19 @@ namespace Jokemon_Team_2
             }
             #endregion
             cManager.Follow(player);
-            
+
             #region Sign stuff
 
             //    foreach (Tree t in treeObjects)
             //    {
             //        pManager.CheckCollision(player, t);
             //    }
-           // foreach (Building b in buildingObjects)
+            // foreach (Building b in buildingObjects)
             //{
             //    pManager.CheckCollision(player, b);
             //}
 
             //SIGN STUFF
-            inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
-                if (inBounds == true)
-                {
-                    foreach (ReadableObject s in signObjects)
-                    {
-                        s.message = MessageList[0];
-                    }
-                }
-                inBounds1 = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign2.spritePosition.X, (int)sign2.spritePosition.Y, 40);
-                if (inBounds1 == true)
-                {
-                    foreach (ReadableObject s in signObjects)
-                    {
-                        s.message = MessageList[1];
-                    }
-                }
-                Debug.WriteLine("bounds{0}", inBounds);
-                //Debug.WriteLine("bounds1{0}", inBounds1);
-                foreach (ReadableObject s in signObjects)
-                {
-                    Sign_Initialize = pManager.CheckSignCollision(player, s);
-                    //STAND UNDER SIGN TO ACTIVATE
-
-
             inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
             if (inBounds == true)
             {
@@ -305,43 +282,71 @@ namespace Jokemon_Team_2
                 foreach (ReadableObject s in signObjects)
                 {
                     s.message = MessageList[1];
-
                 }
-
             }
-
-            //Debug.WriteLine("bounds{0}", inBounds);
+            Debug.WriteLine("bounds{0}", inBounds);
             //Debug.WriteLine("bounds1{0}", inBounds1);
             foreach (ReadableObject s in signObjects)
             {
                 Sign_Initialize = pManager.CheckSignCollision(player, s);
                 //STAND UNDER SIGN TO ACTIVATE
 
-                if (Sign_Initialize == true && MessageBox.spritePosition.Y >= 645)
+            }
+
+
+                inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
+                if (inBounds == true)
                 {
-                    //identify sign
-                    //Move box up animation
-                    MessageBox.spritePosition = new Vector2(MessageBox.spriteSize.X / 2 - 350, MessageBox.spritePosition.Y - 20);
-                    //check if box in right place
-                    if (MessageBox.spritePosition.Y <= 650)
+                    foreach (ReadableObject s in signObjects)
                     {
-                        windowInPosition = true;
+                        s.message = MessageList[0];
                     }
                 }
-
-                //if player no longer standing under sign and the box is still on screen
-                if (Sign_Initialize == false && MessageBox.spritePosition.Y < 801)
+                inBounds1 = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign2.spritePosition.X, (int)sign2.spritePosition.Y, 40);
+                if (inBounds1 == true)
                 {
-                    //move box down so box is not in the engaged position 
-                    MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
-                    //box no longer in engaged position
-                    windowInPosition = false;
+                    foreach (ReadableObject s in signObjects)
+                    {
+                        s.message = MessageList[1];
+
+                    }
+
                 }
-            }
-            #endregion
+
+                //Debug.WriteLine("bounds{0}", inBounds);
+                //Debug.WriteLine("bounds1{0}", inBounds1);
+                foreach (ReadableObject s in signObjects)
+                {
+                    Sign_Initialize = pManager.CheckSignCollision(player, s);
+                    //STAND UNDER SIGN TO ACTIVATE
+
+                    if (Sign_Initialize == true && MessageBox.spritePosition.Y >= 645)
+                    {
+                        //identify sign
+                        //Move box up animation
+                        MessageBox.spritePosition = new Vector2(MessageBox.spriteSize.X / 2 - 350, MessageBox.spritePosition.Y - 20);
+                        //check if box in right place
+                        if (MessageBox.spritePosition.Y <= 650)
+                        {
+                            windowInPosition = true;
+                        }
+                    }
+
+                    //if player no longer standing under sign and the box is still on screen
+                    if (Sign_Initialize == false && MessageBox.spritePosition.Y < 801)
+                    {
+                        //move box down so box is not in the engaged position 
+                        MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
+                        //box no longer in engaged position
+                        windowInPosition = false;
+                    }
+                }
+                #endregion
 
 
-            base.Update(gameTime);
+                base.Update(gameTime);
+
+            
         }
 
         protected override void Draw(GameTime gameTime)
@@ -393,9 +398,6 @@ namespace Jokemon_Team_2
             #endregion
 
             
-            chest.DrawSprite(_spriteBatch, chest.spriteTexture, cManager);
-            Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
-            Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
 
             //foreach (Tree t in treeObjects)
             //{
