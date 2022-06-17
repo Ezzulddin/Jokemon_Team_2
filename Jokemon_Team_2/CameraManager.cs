@@ -23,7 +23,7 @@ namespace Jokemon_Team_2
             Game1.screenHeight / 2,
             0);
 
-
+            //
 
             //
             Transform = Position * offset;
