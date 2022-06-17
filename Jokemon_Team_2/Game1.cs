@@ -13,6 +13,10 @@ namespace Jokemon_Team_2
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        #region Local Variables
+        private char[,] tileValuesArray;
+        private Texture2D big_tree, building, Tile_sign;
+        private const int TILE_SIZE = 80;
         private Player player;
         private MessageWindow MessageBox;
         private SpriteFont loadFont;
@@ -20,7 +24,12 @@ namespace Jokemon_Team_2
         private Building house;
         private Tree trees;
         private ReadableObject Wood_sign;
+        private Texture2D grassTexture;
+        private Grass grass;
+        #endregion
 
+        #region Instances
+        private TileMapClass tileMap = new TileMapClass();
         private List<Tree> treeObjects = new List<Tree>();
         private PhysicsManager pManager = new PhysicsManager();
         private InputManager iManager = new InputManager();
@@ -28,38 +37,37 @@ namespace Jokemon_Team_2
         private List<Building> postObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
         private List<Rectangle> rectangleObjects = new List<Rectangle>();
+        private Tile[,] tileArray = new Tile[10, 10];
+        private List<Grass> grassObjects = new List<Grass>();
+        
+        #endregion
 
+        #region Random Stuff
         private ReadableObject sign;
         private ReadableObject sign2;
-
-
-        private Tile[,] tileArray = new Tile[10, 10];
-        private char[,] tileValuesArray;
-        private Texture2D big_tree, building, Tile_sign;
-        private const int TILE_SIZE = 80;
-
         private CameraManager cManager;
         private CameraManager nullCam;
-
         private bool Sign_Initialize;
         private bool inBounds;
         private bool inBounds1;
         private List<string> MessageList = new List<string>();
-
-        private Rectangle tc1Rect = new Rectangle();
-        private Rectangle tc2Rect = new Rectangle();
-        private Rectangle tr1Rect = new Rectangle();
-        private Rectangle tr2Rect = new Rectangle();
-        private Rectangle tr3Rect = new Rectangle();
-        private Rectangle h1Rect = new Rectangle();
-        private Rectangle h2Rect = new Rectangle();
-        private Rectangle s1Rect = new Rectangle();
-
         MouseState mouse;
         private bool mousePressed = false;
         public static int screenWidth;
         public static int screenHeight;
         private bool windowInPosition;
+        #endregion
+
+        #region Rectangles
+        private Rectangle treeRow1 = new Rectangle();
+        private Rectangle treeRow2 = new Rectangle();
+        private Rectangle treeRow3 = new Rectangle();
+        private Rectangle treeRow4 = new Rectangle();
+        private Rectangle treeRow5 = new Rectangle();
+        private Rectangle building1 = new Rectangle();
+        private Rectangle building2 = new Rectangle();
+        #endregion
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -90,6 +98,7 @@ namespace Jokemon_Team_2
             Vector2 bSize = new Vector2(150, 150);
             Vector2 tSize = new Vector2(80, 100);
             Vector2 sSize = new Vector2(30, 30);
+            Vector2 gSize = new Vector2(220,120);
             for (int i = 0; i <= tileArray.GetUpperBound(0); i++)
             {
                 for (int j = 0; j <= tileArray.GetUpperBound(1); j++)
@@ -99,7 +108,7 @@ namespace Jokemon_Team_2
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
                         tileArray[i, j] = new Tile(big_tree, temPosition, tSize);
                         trees = new Tree(big_tree, temPosition, tSize, true);
-                        
+
                         treeObjects.Add(trees);
                     }
                     if (tileValuesArray[i, j].ToString().Contains("2"))
@@ -108,17 +117,25 @@ namespace Jokemon_Team_2
                         tileArray[i, j] = new Tile(building, temPosition, bSize);
                         house = new Building(building, temPosition, bSize, true);
                         Debug.WriteLine("X: {0} Y:{1}", house.spritePosition.X, house.spritePosition.Y);
-                        
+
                         buildingObjects.Add(house);
-                    }//
+                    }
                     if (tileValuesArray[i, j].ToString().Contains("3"))
                     {
-                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
+                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE); 
                         tileArray[i, j] = new Tile(Tile_sign, temPosition, sSize);
-                        Wood_sign = new ReadableObject(Tile_sign, temPosition, sSize, true);
+                        Wood_sign = new ReadableObject(Tile_sign, temPosition, sSize, loadFont, ("default"), new Vector2(80, 670), true);
                         Debug.WriteLine("X: {0} Y: {1}", Wood_sign.spritePosition.X, Wood_sign.spritePosition.Y);
-                        
+
                         signObjects.Add(Wood_sign);
+                    }
+                    if(tileValuesArray[i,j].ToString().Contains("4"))
+                    {
+                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
+                        tileArray[i, j] = new Tile(grassTexture, temPosition, gSize);
+                        grass = new Grass(grassTexture, temPosition, gSize);
+
+                        grassObjects.Add(grass);
                     }
                     else if (tileValuesArray[i, j].ToString().Contains("0"))
                     {
@@ -129,6 +146,7 @@ namespace Jokemon_Team_2
         }
         protected override void LoadContent()
         {
+            #region Loading Sprites
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             big_tree = Content.Load<Texture2D>("Big_tree");
@@ -137,16 +155,19 @@ namespace Jokemon_Team_2
 
             Tile_sign = Content.Load<Texture2D>("Sign");
 
+            grassTexture = Content.Load<Texture2D>("Grassbig");
+            #endregion
+
             loadContent = Content.Load<Texture2D>("Player_M");
             player = new Player(loadContent, new Vector2(360, 380), new Vector2(35, 50), true);
             loadFont = Content.Load<SpriteFont>("File");
 
-            //sign = new ReadableObject(Tile_sign, new Vector2(500, 500), new Vector2(30, 30), loadFont, ("default"), new Vector2(80, 670), true);
-            //sign2 = new ReadableObject(Tile_sign, new Vector2(200, 300), new Vector2(30, 30), loadFont, ("Default"), new Vector2(80, 670), true);
+            sign = new ReadableObject(Tile_sign, new Vector2(500, 500), new Vector2(30, 30), loadFont, ("default"), new Vector2(80, 670), true);
+            sign2 = new ReadableObject(Tile_sign, new Vector2(200, 300), new Vector2(30, 30), loadFont, ("Default"), new Vector2(80, 670), true);
 
             loadContent = Content.Load<Texture2D>("MessageBox");
 
-            //MessageBox = new MessageWindow(Tile_sign, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150));
+            MessageBox = new MessageWindow(Tile_sign, new Vector2(Window.ClientBounds.Width / 2 - 750 / 2, 800), new Vector2(750, 150));
 
             signObjects.Add(sign);
             signObjects.Add(sign2);
@@ -157,14 +178,29 @@ namespace Jokemon_Team_2
             cManager = new CameraManager();//for all objects in game world(trees, bushes, homes)
             nullCam = new CameraManager();//for all static objects(menus/popups)
 
+            #region Rectangle Collisions
+            treeRow1 = new Rectangle(0, 0, (int)trees.spriteSize.X, (int)trees.spriteSize.Y * 8);
+            rectangleObjects.Add(treeRow1);
 
-            tc1Rect = new Rectangle((int)trees.spritePosition.X, (int)trees.spritePosition.Y, (int)trees.spriteSize.X, (int)trees.spriteSize.Y);
-            rectangleObjects.Add(tc1Rect);
-            h2Rect = new Rectangle((int)house.spritePosition.X, (int)house.spritePosition.Y, (int)house.spriteSize.X, (int)house.spriteSize.Y);
-            rectangleObjects.Add(h2Rect);
-            s1Rect = new Rectangle((int)Wood_sign.spritePosition.X, (int)Wood_sign.spritePosition.Y, (int)house.spriteSize.X, (int)house.spriteSize.Y);
-            rectangleObjects.Add(s1Rect);
+            treeRow2 = new Rectangle(82,722 ,(int)trees.spriteSize.X * 8 ,(int)trees.spriteSize.Y);
+            rectangleObjects.Add(treeRow2);
+
+            treeRow3 = new Rectangle(720, 0, (int)trees.spriteSize.X , (int)trees.spriteSize.Y * 9);
+            rectangleObjects.Add(treeRow3);
+
+            treeRow4 = new Rectangle(477, 0, (int)trees.spriteSize.X * 3, (int)trees.spriteSize.Y);
+            rectangleObjects.Add(treeRow4);
+
+            treeRow5 = new Rectangle(0, 0, (int)trees.spriteSize.X * 4, (int)trees.spriteSize.Y);
+            rectangleObjects.Add(treeRow5);
+
+            foreach(Building b in buildingObjects)
+            {
+                building1 = new Rectangle((int)b.spritePosition.X, (int)b.spritePosition.Y, (int)house.spriteSize.X, (int)house.spriteSize.Y - 20);
+                rectangleObjects.Add(building1);
+            }
             //rectangleObjects.Add(h1Rect);
+            #endregion
 
 
 
@@ -174,7 +210,7 @@ namespace Jokemon_Team_2
 
         protected override void Update(GameTime gameTime)
         {
-
+            Debug.WriteLine("X:{0} Y:{1} ",player.spritePosition.X,player.spritePosition.Y);
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -185,7 +221,7 @@ namespace Jokemon_Team_2
 
             //if (mouse.X == )
             //{
-            //    if(mouse.LeftButton == ButtonState.Pressed)
+            //    if (mouse.LeftButton == ButtonState.Pressed)
             //    {
             //        Debug.WriteLine("Mouse Pressed");
             //        mousePressed = true;
@@ -194,13 +230,16 @@ namespace Jokemon_Team_2
 
             // TODO: Add your update logic here
             iManager.CheckKeys(player,_graphics);
-
-            foreach(Rectangle r in rectangleObjects)
+            #region Checking Collisions with objects in rectangle objects
+            foreach (Rectangle r in rectangleObjects)
             {
                 pManager.checkCollision(player, r);
             }
-
+            #endregion
             cManager.Follow(player);
+            
+            #region Sign stuff
+
             //STAND UNDER SIGN TO ACTIVATE MESSAGE
             if (player.hasCollidedTop == true && MessageBox.spritePosition.Y >= Window.ClientBounds.Height - MessageBox.spriteSize.Y - 9)
             {
@@ -221,58 +260,60 @@ namespace Jokemon_Team_2
                 windowInPosition = false;
             }
 
-            //inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
-            //if (inBounds == true)
-            //{
-            //    foreach (ReadableObject s in signObjects)
-            //    {
-            //        s.message = MessageList[0];
-            //    }
-            //}
-            //inBounds1 = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign2.spritePosition.X, (int)sign2.spritePosition.Y, 40);
-            //if (inBounds1 == true)
-            //{
-            //    foreach (ReadableObject s in signObjects)
-            //    {
-            //        s.message = MessageList[1];
-            //    }
-            //}
+            inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
+            if (inBounds == true)
+            {
+                foreach (ReadableObject s in signObjects)
+                {
+                    s.message = MessageList[0];
+                }
+            }
+            inBounds1 = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign2.spritePosition.X, (int)sign2.spritePosition.Y, 40);
+            if (inBounds1 == true)
+            {
+                foreach (ReadableObject s in signObjects)
+                {
+                    s.message = MessageList[1];
+                }
+            }
             //Debug.WriteLine("bounds{0}", inBounds);
-            ////Debug.WriteLine("bounds1{0}", inBounds1);
-            //foreach (ReadableObject s in signObjects)
-            //{
-            //    Sign_Initialize = pManager.CheckSignCollision(player, s);
-            //    //STAND UNDER SIGN TO ACTIVATE
+            //Debug.WriteLine("bounds1{0}", inBounds1);
+            foreach (ReadableObject s in signObjects)
+            {
+                Sign_Initialize = pManager.CheckSignCollision(player, s);
+                //STAND UNDER SIGN TO ACTIVATE
 
-            //    if (Sign_Initialize == true && MessageBox.spritePosition.Y >= 645)
-            //    {
-            //        //identify sign
-            //        //Move box up animation
-            //        MessageBox.spritePosition = new Vector2(MessageBox.spriteSize.X / 2 - 350, MessageBox.spritePosition.Y - 20);
-            //        //check if box in right place
-            //        if (MessageBox.spritePosition.Y <= 650)
-            //        {
-            //            windowInPosition = true;
-            //        }
-            //    }
+                if (Sign_Initialize == true && MessageBox.spritePosition.Y >= 645)
+                {
+                    //identify sign
+                    //Move box up animation
+                    MessageBox.spritePosition = new Vector2(MessageBox.spriteSize.X / 2 - 350, MessageBox.spritePosition.Y - 20);
+                    //check if box in right place
+                    if (MessageBox.spritePosition.Y <= 650)
+                    {
+                        windowInPosition = true;
+                    }
+                }
 
-            //    //if player no longer standing under sign and the box is still on screen
-            //    if (Sign_Initialize == false && MessageBox.spritePosition.Y < 801)
-            //    {
-            //        //move box down so box is not in the engaged position 
-            //        MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
-            //        //box no longer in engaged position
-            //        windowInPosition = false;
-            //    }
-            //}
+                //if player no longer standing under sign and the box is still on screen
+                if (Sign_Initialize == false && MessageBox.spritePosition.Y < 801)
+                {
+                    //move box down so box is not in the engaged position 
+                    MessageBox.spritePosition = new Vector2(MessageBox.spritePosition.X, MessageBox.spritePosition.Y + 1000);
+                    //box no longer in engaged position
+                    windowInPosition = false;
+                }
+            }
+            #endregion
 
-                base.Update(gameTime);
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             bool draw = true;
             GraphicsDevice.Clear(Color.LightGreen);
+            #region Drawing Sprites in tile map
             foreach (Tile t in tileArray)
             {
                 if(draw == true)
@@ -286,41 +327,32 @@ namespace Jokemon_Team_2
 
                 }
             }
-            
+            #endregion
+
             player.DrawSprite(_spriteBatch, player.spriteTexture,cManager);
 
-            //foreach (ReadableObject s in signObjects)
-            //{
-            //    if (s.IsDrawn)
-            //    {
-            //        s.DrawSprite(_spriteBatch, sign.spriteTexture, cManager);
-            //    }
-            //    if (Sign_Initialize == true)
-            //    {
-            //        //Draw the message box
-            //        MessageBox.DrawMessageWindow(_spriteBatch, MessageBox.spriteTexture);
-            //    }
-            //    //If the message box is in the engaged position
-            //    if (windowInPosition == true)
-            //    {
-            //        //Draw the text
-            //        s.DrawMessage(_spriteBatch);
-
-            //    }
-
-            //}
-            //If the player is touching the bottom of the sign
-            if (player.hasCollidedTop == true)
+            #region Sign stuff Idk
+            foreach (ReadableObject s in signObjects)
             {
-                //Draw the message box
-                MessageBox.DrawSprite(_spriteBatch, MessageBox.spriteTexture,cManager);
+                if (s.IsDrawn)
+                {
+                    s.DrawSprite(_spriteBatch, sign.spriteTexture, cManager);
+                }
+                if (Sign_Initialize == true)
+                {
+                    //Draw the message box
+                    MessageBox.DrawMessageWindow(_spriteBatch, MessageBox.spriteTexture);
+                }
                 //If the message box is in the engaged position
                 if (windowInPosition == true)
                 {
                     //Draw the text
-                    MessageBox.DrawMessage(_spriteBatch);
+                    s.DrawMessage(_spriteBatch);
+
                 }
+
             }
+            #endregion
 
             base.Draw(gameTime);
         }

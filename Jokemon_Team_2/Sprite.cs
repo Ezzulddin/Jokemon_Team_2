@@ -12,28 +12,25 @@ namespace Jokemon_Team_2
         public Texture2D spriteTexture { get; set; }
         public Vector2 spritePosition { get; set; }
         public Vector2 spriteSize { get; set; }
-        //public Color spriteColour { get; set; }
+
         public Sprite()
         {
 
         }
 
-        public Sprite(Texture2D tex, Vector2 pos, Vector2 size/*,Color col*/)
+        public Sprite(Texture2D tex, Vector2 pos, Vector2 size)
         {
             this.spriteTexture = tex;
             this.spritePosition = pos;
             this.spriteSize = size;
-            //this.spriteColour = col;
 
         }
 
-        public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture,CameraManager cm)
+        public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture, CameraManager camera)
         {
             spriteTexture = texture;
-            spriteBatch.Begin(transformMatrix: cm.Transform);
-
+            spriteBatch.Begin(transformMatrix: camera.Transform);
             spriteBatch.Draw(spriteTexture, new Rectangle((int)spritePosition.X, (int)spritePosition.Y, (int)spriteSize.X, (int)spriteSize.Y), Color.White);
-            
             spriteBatch.End();
 
         }
