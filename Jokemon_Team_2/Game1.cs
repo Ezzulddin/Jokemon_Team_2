@@ -11,7 +11,7 @@ namespace Jokemon_Team_2
     {
         // comment
         private GraphicsDeviceManager _graphics;
-        
+
         private SpriteBatch _spriteBatch;
 
         #region Local Variables
@@ -22,7 +22,7 @@ namespace Jokemon_Team_2
 
 
         private MessageWindow MessageBox;
-        
+
         private SpriteFont loadFont;
 
         private Texture2D loadContent;
@@ -48,7 +48,7 @@ namespace Jokemon_Team_2
         private List<Rectangle> rectangleObjects = new List<Rectangle>();
         private Tile[,] tileArray = new Tile[10, 10];
         private List<Grass> grassObjects = new List<Grass>();
-        
+
         #endregion
 
         #region Random Stuff
@@ -76,7 +76,7 @@ namespace Jokemon_Team_2
         private Rectangle building1 = new Rectangle();
         private Rectangle building2 = new Rectangle();
         #endregion
-        
+
 
         public Game1()
         {
@@ -101,7 +101,7 @@ namespace Jokemon_Team_2
             tileArray = new Tile[MapReader.MapSize, MapReader.MapSize];
             tileValuesArray = MapReader.ReadFile("../../../Content/Text_file/Tile_Map");
             Window.AllowUserResizing = false;
-            
+
             base.Initialize();
         }
         public void CreateMap()
@@ -110,7 +110,7 @@ namespace Jokemon_Team_2
             Vector2 bSize = new Vector2(150, 150);
             Vector2 tSize = new Vector2(80, 100);
             Vector2 sSize = new Vector2(30, 30);
-            Vector2 gSize = new Vector2(220,120);
+            Vector2 gSize = new Vector2(220, 120);
             for (int i = 0; i <= tileArray.GetUpperBound(0); i++)
             {
                 for (int j = 0; j <= tileArray.GetUpperBound(1); j++)
@@ -134,14 +134,14 @@ namespace Jokemon_Team_2
                     }
                     if (tileValuesArray[i, j].ToString().Contains("3"))
                     {
-                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE); 
+                        temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
                         tileArray[i, j] = new Tile(Tile_sign, temPosition, sSize);
                         Wood_sign = new ReadableObject(Tile_sign, temPosition, sSize, loadFont, ("default"), new Vector2(80, 670), true);
                         Debug.WriteLine("X: {0} Y: {1}", Wood_sign.spritePosition.X, Wood_sign.spritePosition.Y);
 
                         signObjects.Add(Wood_sign);
                     }
-                    if(tileValuesArray[i,j].ToString().Contains("4"))
+                    if (tileValuesArray[i, j].ToString().Contains("4"))
                     {
                         temPosition = new Vector2(i * TILE_SIZE, j * TILE_SIZE);
                         tileArray[i, j] = new Tile(grassTexture, temPosition, gSize);
@@ -195,11 +195,11 @@ namespace Jokemon_Team_2
             treeRow1 = new Rectangle(0, 0, (int)trees.spriteSize.X, (int)trees.spriteSize.Y * 8);
             rectangleObjects.Add(treeRow1);
 
-            treeRow2 = new Rectangle(82,722 ,(int)trees.spriteSize.X * 8 ,(int)trees.spriteSize.Y);
+            treeRow2 = new Rectangle(82, 722, (int)trees.spriteSize.X * 8, (int)trees.spriteSize.Y);
             rectangleObjects.Add(treeRow2);
 
 
-            treeRow3 = new Rectangle(720, 0, (int)trees.spriteSize.X , (int)trees.spriteSize.Y * 9);
+            treeRow3 = new Rectangle(720, 0, (int)trees.spriteSize.X, (int)trees.spriteSize.Y * 9);
             rectangleObjects.Add(treeRow3);
 
             treeRow4 = new Rectangle(477, 0, (int)trees.spriteSize.X * 3, (int)trees.spriteSize.Y);
@@ -208,7 +208,7 @@ namespace Jokemon_Team_2
             treeRow5 = new Rectangle(0, 0, (int)trees.spriteSize.X * 4, (int)trees.spriteSize.Y);
             rectangleObjects.Add(treeRow5);
 
-            foreach(Building b in buildingObjects)
+            foreach (Building b in buildingObjects)
             {
                 building1 = new Rectangle((int)b.spritePosition.X, (int)b.spritePosition.Y, (int)house.spriteSize.X, (int)house.spriteSize.Y - 20);
                 rectangleObjects.Add(building1);
