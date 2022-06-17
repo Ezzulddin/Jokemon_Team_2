@@ -10,14 +10,16 @@ namespace Jokemon_Team_2
 {
     class PhysicsManager
     {
-        private float speed = 2f;
+        private float speed = 0.35f;
         private int collisionOffset = 3;
         private bool SignInitialize = false;
-        public bool CheckInBounds(int PosX1,int PosY1,int PosX2,int PosY2,int distBounds) 
+        public bool CheckInBounds(int PosX1, int PosY1, int PosX2, int PosY2, int distBounds)
+
         {
             bool inBounds;
             int distX;
             int distY;
+
 
             distX = Math.Abs(PosX1 - PosX2);
             distY = Math.Abs(PosY1 - PosY2);
@@ -25,13 +27,90 @@ namespace Jokemon_Team_2
             {
                 inBounds = true;
             }
-            else 
+            else
             {
-                inBounds = false;   
-            
+                inBounds = false;
+
             }
 
             return inBounds;
+        }
+        public void checkCollision(Player p, Rectangle r)
+        {
+            if (p.goingUp)
+            {
+                p.projectedPos = new Vector2(p.spritePosition.X, p.spritePosition.Y - collisionOffset); //check if we are about to collide
+                Rectangle projectedPlayerRect = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
+
+                if (projectedPlayerRect.Intersects(r)) //check if projection has collided
+                {
+                    p.hasCollidedTop = true;
+                }
+                if (p.hasCollidedTop == false) //if we're not at the top, let the player go up
+                {
+                    goUp(p);
+                    p.hasCollidedBottom = false; //if we've gone up, can't be colliding with bottom
+
+                }
+            }
+            else if (p.goingDown)
+            {
+
+                p.projectedPos = new Vector2(p.spritePosition.X, p.spritePosition.Y + collisionOffset); //check if we are about to collide
+                Rectangle projectedPlayerSprite = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
+
+                if (projectedPlayerSprite.Intersects(r)) //check if projection has collided
+                {
+                    p.hasCollidedBottom = true;
+                }
+
+
+                if (p.hasCollidedBottom == false)
+                {
+                    goDown(p);
+                    p.hasCollidedTop = false;
+                }
+
+
+            }
+            else if (p.goingLeft)
+            {
+
+                p.projectedPos = new Vector2(p.spritePosition.X - collisionOffset, p.spritePosition.Y); //check if we are about to collide
+                Rectangle projectedPlayerSprite = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
+
+                if (projectedPlayerSprite.Intersects(r)) //check if projection has collided
+                {
+                    p.hasCollidedLeft = true;
+                }
+
+
+                if (p.hasCollidedLeft == false)
+                {
+                    goLeft(p);
+                    p.hasCollidedRight = false;
+                }
+
+            }
+            else if (p.goingRight)
+            {
+
+                p.projectedPos = new Vector2(p.spritePosition.X + collisionOffset, p.spritePosition.Y); //check if we are about to collide
+                Rectangle projectedPlayerSprite = new Rectangle((int)p.projectedPos.X, (int)p.projectedPos.Y, (int)p.spriteSize.X, (int)p.spriteSize.Y);
+
+                if (projectedPlayerSprite.Intersects(r)) //check if projection has collided
+                {
+                    p.hasCollidedRight = true;
+                }
+
+
+                if (p.hasCollidedRight == false)
+                {
+                    goRight(p);
+                    p.hasCollidedLeft = false;
+                }
+            }
+
         }
         public void CheckCollision(Player p, Tree t)
         {
@@ -111,7 +190,9 @@ namespace Jokemon_Team_2
                 }
             }
 
-        }
+
+        } // Dont think this is needed
+
         public bool CheckSignCollision(Player p, ReadableObject r)
         {
             Rectangle readableObjectRect = new Rectangle((int)r.spritePosition.X, (int)r.spritePosition.Y, (int)r.spriteSize.X, (int)r.spriteSize.Y);
@@ -130,7 +211,9 @@ namespace Jokemon_Team_2
 
                 }
                 if (p.hasCollidedTop == false)
-                { 
+
+                {
+
                     SignInitialize = false;
                     goUp(p);
                     p.hasCollidedBottom = false;
@@ -196,7 +279,7 @@ namespace Jokemon_Team_2
             }
             return SignInitialize;
 
-        }
+        } // Dont think this is needed
         public void CheckCollision(Player p, Building b)
         {
             Rectangle buildingRect = new Rectangle((int)b.spritePosition.X, (int)b.spritePosition.Y, (int)b.spriteSize.X, (int)b.spriteSize.Y);
@@ -270,7 +353,16 @@ namespace Jokemon_Team_2
                     p.hasCollidedBottom = false;
                 }
             }
+        } // Dont think this is needed
+        
+        public void GrassCollision(Rectangle p,Rectangle g)
+        {
+            if(p.Intersects(g))
+            {
+
+            }
         }
+
         public void goLeft(Player playerSprite)
         {
             playerSprite.spritePosition = new Vector2(playerSprite.spritePosition.X - speed, playerSprite.spritePosition.Y);
