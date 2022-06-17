@@ -41,7 +41,7 @@ namespace Jokemon_Team_2
 
         private InputManager iManager = new InputManager();
 
-        private List<Tree> treeObjects = new List<Tree>();
+        
         private List<Building> buildingObjects = new List<Building>();
         private List<ReadableObject> signObjects = new List<ReadableObject>();
 
@@ -284,13 +284,13 @@ namespace Jokemon_Team_2
                     }
                 }
                 Debug.WriteLine("bounds{0}", inBounds);
-                //Debug.WriteLine("bounds1{0}", inBounds1);
-                foreach (ReadableObject s in signObjects)
-                {
-                    Sign_Initialize = pManager.CheckSignCollision(player, s);
-                    //STAND UNDER SIGN TO ACTIVATE
+            //Debug.WriteLine("bounds1{0}", inBounds1);
+            foreach (ReadableObject s in signObjects)
+            {
+                Sign_Initialize = pManager.CheckSignCollision(player, s);
+                //STAND UNDER SIGN TO ACTIVATE
 
-
+            }
             inBounds = pManager.CheckInBounds((int)player.spritePosition.X, (int)player.spritePosition.Y, (int)sign.spritePosition.X, (int)sign.spritePosition.Y, 40);
             if (inBounds == true)
             {
@@ -393,9 +393,9 @@ namespace Jokemon_Team_2
             #endregion
 
 
-            chest.DrawSprite(_spriteBatch, chest.spriteTexture, cManager);
-            Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
-            Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
+            //chest.DrawSprite(_spriteBatch, chest.spriteTexture, cManager);
+            //Home1.DrawSprite(_spriteBatch, Home1.spriteTexture, cManager);
+            //Home2.DrawSprite(_spriteBatch, Home2.spriteTexture, cManager);
 
             //foreach (Tree t in treeObjects)
             //{
