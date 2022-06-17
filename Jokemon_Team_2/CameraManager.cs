@@ -12,15 +12,17 @@ namespace Jokemon_Team_2
         public Matrix Transform { get; private set; }
         public void Follow(Player Target)
         {
-         
+
+
             Matrix Position = Matrix.CreateTranslation
                  (-Target.spritePosition.X - (Target.spriteSize.X / 2),
                  -Target.spritePosition.Y - (Target.spriteSize.Y / 2)
-                 ,0);
-           Matrix offset = Matrix.CreateTranslation(
-           Game1.screenWidth / 2,
-           Game1.screenHeight / 2,
-           0);
+                 , 0);
+            Matrix offset = Matrix.CreateTranslation(
+            Game1.screenWidth / 2,
+            Game1.screenHeight / 2,
+            0);
+
 
 
 
@@ -28,4 +30,3 @@ namespace Jokemon_Team_2
             Transform = Position * offset;
         }
     }
-}

@@ -22,7 +22,7 @@ namespace Jokemon_Team_2
 
         private bool isDrawn;
 
-        public Player(Texture2D tex, Vector2 pos, Vector2 size,bool draw) : base(tex, pos, size)
+        public Player(Texture2D tex, Vector2 pos, Vector2 size, bool draw) : base(tex, pos, size)
         {
             isDrawn = draw;
         }
@@ -33,4 +33,3 @@ namespace Jokemon_Team_2
         }
     }
 }
-
