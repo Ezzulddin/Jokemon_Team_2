@@ -190,7 +190,7 @@ namespace Jokemon_Team_2
             CreateMap();
             cManager = new CameraManager();//for all objects in game world(trees, bushes, homes)
             nullCam = new CameraManager();//for all static objects(menus/popups)
-
+            //
             #region Rectangle Collisions
             treeRow1 = new Rectangle(0, 0, (int)trees.spriteSize.X, (int)trees.spriteSize.Y * 8);
             rectangleObjects.Add(treeRow1);
