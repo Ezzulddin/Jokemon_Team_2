@@ -159,6 +159,8 @@ namespace Jokemon_Team_2
         protected override void LoadContent()
         {
             #region Loading Sprites
+
+            //f
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
