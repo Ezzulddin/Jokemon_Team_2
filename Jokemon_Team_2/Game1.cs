@@ -164,8 +164,9 @@ namespace Jokemon_Team_2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            big_tree = Content.Load<Texture2D>("Big_tree");
-
+            //big_tree = Content.Load<Texture2D>("Big_tree");
+            //Test
+            //
             building = Content.Load<Texture2D>("House_Wood");
 
             Tile_sign = Content.Load<Texture2D>("Sign");
