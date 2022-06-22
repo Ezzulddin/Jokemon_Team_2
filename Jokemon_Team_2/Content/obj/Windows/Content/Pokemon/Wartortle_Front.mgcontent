@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/ezzuz/Source/Repos/Ezzulddin/Jokemon_Team_2/Jokemon_Team_2/Content/Pokemon/Wartortle_Front.png</SourceFile>
-  <SourceTime>2022-06-22T12:14:08.9053408+01:00</SourceTime>
-  <DestFile>C:/Users/ezzuz/Source/Repos/Ezzulddin/Jokemon_Team_2/Jokemon_Team_2/Content/bin/Windows/Content/Pokemon/Wartortle_Front.xnb</DestFile>
-  <DestTime>2022-06-22T12:21:16.3469051+01:00</DestTime>
+  <SourceFile>C:/Users/Year12/Source/Repos/Jokemon_Team_2/Jokemon_Team_2/Content/Pokemon/Wartortle_Front.png</SourceFile>
+  <SourceTime>2022-06-08T11:52:36.3857176+01:00</SourceTime>
+  <DestFile>C:/Users/Year12/Source/Repos/Jokemon_Team_2/Jokemon_Team_2/Content/bin/Windows/Content/Pokemon/Wartortle_Front.xnb</DestFile>
+  <DestTime>2022-06-22T12:28:33.3939619+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T17:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

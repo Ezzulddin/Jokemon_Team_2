@@ -159,10 +159,12 @@ namespace Jokemon_Team_2
         protected override void LoadContent()
         {
             #region Loading Sprites
+
+            
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            big_tree = Content.Load<Texture2D>("Big_tree");
+            //big_tree = Content.Load<Texture2D>("Big_tree");
 
             building = Content.Load<Texture2D>("House_Wood");
 
