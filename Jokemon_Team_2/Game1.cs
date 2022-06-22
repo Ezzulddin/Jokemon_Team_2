@@ -226,7 +226,7 @@ namespace Jokemon_Team_2
         protected override void Update(GameTime gameTime)
         {
 
-            Debug.WriteLine("X:{0} Y:{1} ", player.spritePosition.X, player.spritePosition.Y);
+            //Debug.WriteLine("X:{0} Y:{1} ", player.spritePosition.X, player.spritePosition.Y);
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
