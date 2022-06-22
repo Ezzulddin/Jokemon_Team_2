@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/autob/source/repos/Jokemon_Team_2/Jokemon_Team_2/Content/Pokemon/Charmeleon_Back.png</SourceFile>
-  <SourceTime>2022-06-15T12:26:11.0329307+01:00</SourceTime>
-  <DestFile>C:/Users/autob/source/repos/Jokemon_Team_2/Jokemon_Team_2/Content/bin/Windows/Content/Pokemon/Charmeleon_Back.xnb</DestFile>
-  <DestTime>2022-06-22T11:45:44.8008422+01:00</DestTime>
+  <SourceFile>C:/Users/ezzuz/Source/Repos/Ezzulddin/Jokemon_Team_2/Jokemon_Team_2/Content/Pokemon/Charmeleon_Back.png</SourceFile>
+  <SourceTime>2022-06-22T12:14:08.8220163+01:00</SourceTime>
+  <DestFile>C:/Users/ezzuz/Source/Repos/Ezzulddin/Jokemon_Team_2/Jokemon_Team_2/Content/bin/Windows/Content/Pokemon/Charmeleon_Back.xnb</DestFile>
+  <DestTime>2022-06-22T12:15:22.0978736+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T17:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
