@@ -49,6 +49,8 @@ namespace Jokemon_Team_2
         private Tile[,] tileArray = new Tile[10, 10];
         private List<Grass> grassObjects = new List<Grass>();
 
+        private Random rand;
+
         #endregion
 
         #region Random Stuff
